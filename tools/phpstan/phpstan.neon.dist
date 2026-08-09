@@ -1,0 +1,9 @@
+parameters:
+    level: 8
+    paths:
+        - ../../src
+        - ../../config
+        - ../../database
+        - ../../routes
+        - ../../.template
+    tmpDir: build/phpstan

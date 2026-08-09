@@ -1,0 +1,83 @@
+name: run-php-tests
+
+on:
+  pull_request:
+  push:
+    branches: [base]
+  schedule:
+    - cron: '0 0 * * 0'
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      php: ${{ steps.filter.outputs.php == 'true' || github.event_name == 'schedule' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            php:
+              - '**.php'
+              - '.github/workflows/php-tests.yml'
+              - 'tests/phpunit.xml.dist'
+              - 'composer.json'
+              - 'composer.lock'
+
+  test:
+    needs: changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [8.5, 8.4, 8.3]
+        laravel: [13, 12]
+
+    name: PHP Tests P${{ matrix.php }} - Laravel ${{ matrix.laravel }}
+
+    steps:
+      - name: Checkout code
+        if: needs.changes.outputs.php == 'true'
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        if: needs.changes.outputs.php == 'true'
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, fileinfo, sqlite, pdo_sqlite, bcmath, intl
+          coverage: pcov
+
+      - name: Cache Composer dependencies
+        if: needs.changes.outputs.php == 'true'
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: composer-${{ matrix.php }}-L${{ matrix.laravel }}-${{ hashFiles('composer.lock') }}
+          restore-keys: |
+            composer-${{ matrix.php }}-L${{ matrix.laravel }}
+            composer-${{ matrix.php }}
+
+      - name: Install dependencies
+        if: needs.changes.outputs.php == 'true'
+        run: |
+          composer switch:l${{ matrix.laravel }} -- -- --no-interaction --no-progress --ansi
+          composer dump-autoload --optimize
+
+      - name: Execute tests with coverage
+        if: needs.changes.outputs.php == 'true' && matrix.php == '8.5' && matrix.laravel == 13
+        run: composer test:coverage-ci
+
+      - name: Execute tests
+        if: needs.changes.outputs.php == 'true' && (matrix.php != '8.5' || matrix.laravel != 13)
+        run: composer test:parallel
+
+      - name: Upload coverage reports to Codecov
+        if: needs.changes.outputs.php == 'true' && matrix.php == '8.5' && matrix.laravel == 13
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./build/coverage.xml
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

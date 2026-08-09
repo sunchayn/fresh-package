@@ -1,0 +1,35 @@
+name: verify-template
+
+on:
+  pull_request:
+    paths:
+      - '.template/**'
+      - 'composer.json'
+      - '.github/workflows/verify-template.yml'
+  push:
+    branches: [base]
+    paths:
+      - '.template/**'
+      - 'composer.json'
+      - '.github/workflows/verify-template.yml'
+
+jobs:
+  sandbox-matrix:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    name: Sandbox Matrix
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+
+      - name: Install composer dependencies
+        uses: ramsey/composer-install@v3
+
+      - name: Run template:sandbox --matrix
+        run: php .template/init template:sandbox --matrix

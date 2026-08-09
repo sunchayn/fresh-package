@@ -1,0 +1,125 @@
+name: fix-code-issues
+
+on:
+  push:
+    branches: [base]
+  pull_request:
+
+permissions:
+  contents: write
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    name: Setup Environment
+    outputs:
+      is_fork: ${{ steps.compute_is_fork.outputs.is_fork }}
+      fixable: ${{ steps.filter.outputs.fixable }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name || github.repository }}
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref_name }}
+          token: ${{ secrets.CI_TOKEN || github.token }}
+
+      - id: compute_is_fork
+        run: echo "is_fork=${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository }}" >> "$GITHUB_OUTPUT"
+
+      - name: Check for changes
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            fixable:
+              - '**.php'
+              - 'composer.json'
+
+  style-fix-internal:
+    needs: setup
+    if: needs.setup.outputs.is_fork == 'false' && needs.setup.outputs.fixable == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    name: Apply Code Fixes (Internal)
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name || github.repository }}
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref_name }}
+          token: ${{ secrets.CI_TOKEN || github.token }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+
+      - name: Install composer dependencies
+        uses: ramsey/composer-install@v3
+
+      - name: Rector
+        run: composer rector
+
+      - name: Commit Rector changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "refactor: apply rector"
+
+      - name: Fix php styles
+        run: composer style:fix
+
+      - name: Commit php changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "style: apply php style fixes"
+
+      - name: Fail if fixes could not be auto-applied
+        run: |
+          if ! git diff --quiet || ! git diff --cached --quiet; then
+            echo "Code fixers produced changes, but it was not possible to auto-commit them."
+            echo "Please apply the code fixes locally and push them to the PR branch."
+            exit 1
+          fi
+
+  style-check-fork:
+    needs: setup
+    if: needs.setup.outputs.is_fork == 'true' && needs.setup.outputs.fixable == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    name: Check Code Styles (Fork)
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+
+      - name: Install composer dependencies
+        uses: ramsey/composer-install@v3
+
+      - name: Check Rector
+        run: composer rector:check
+
+      - name: Check php styles
+        run: composer style:check
+
+  status:
+    needs: [style-fix-internal, style-check-fork]
+    if: always()
+    runs-on: ubuntu-latest
+    name: Code Fix Status
+    steps:
+      - name: Check overall status
+        run: |
+          if [[ "${{ needs.style-fix-internal.result }}" == "failure" || "${{ needs.style-check-fork.result }}" == "failure" ]]; then
+            echo "One of the style jobs failed."
+            exit 1
+          fi
+          echo "All required style jobs passed or were skipped."
+          exit 0

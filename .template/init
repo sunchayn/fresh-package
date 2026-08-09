@@ -1,0 +1,32 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+require_once __DIR__.'/../vendor/autoload.php';
+
+use Illuminate\Foundation\Application;
+use Symfony\Component\Console\Application as ConsoleApplication;
+use Template\Commands\TemplateInitCommand;
+use Template\Commands\TemplateSandboxCommand;
+
+// A bare Foundation\Application (unbooted, no service providers).
+// This is just enough of a container for Illuminate\Console\Command::run() to work.
+$app = new Application(getcwd() ?: '.');
+
+$initCommand = new TemplateInitCommand;
+$sandboxCommand = new TemplateSandboxCommand;
+
+$initCommand->setLaravel($app);
+$sandboxCommand->setLaravel($app);
+
+$application = new ConsoleApplication('template');
+
+$application->addCommands([
+    $initCommand,
+    $sandboxCommand,
+]);
+
+$application->setDefaultCommand('template:init');
+
+$application->run();

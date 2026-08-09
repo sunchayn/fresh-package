@@ -1,0 +1,112 @@
+{
+    "$schema": "https://getcomposer.org/schema.json",
+    "name": "sunchayn/fresh-package",
+    "description": "An opinionated skeleton for scaffolding a modular and decluttered Laravel package. It supports backend-only and full-stack packages.",
+    "keywords": [
+        "laravel",
+        "laravel-template",
+        "laravel-package",
+        "starter-kit",
+        "skeleton",
+        "template"
+    ],
+    "homepage": "https://github.com/sunchayn/fresh-package",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mazen Touati",
+            "email": "mazen_touati@hotmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "illuminate/support": "^12.0||^13.0"
+    },
+    "require-dev": {
+        "brianium/paratest": "^7.0||^8.0",
+        "larastan/larastan": "^2.9||^3.0",
+        "laravel/agent-detector": "^2.0",
+        "sunchayn/chisel-extended": "^0.2.0",
+        "laravel/pint": "^1.29",
+        "laravel/prompts": "^0.3",
+        "nunomaduro/collision": "^8.1",
+        "orchestra/testbench": "^10.6||^11.0",
+        "phpstan/extension-installer": "^1.4",
+        "phpunit/phpunit": "^11.5.3",
+        "rector/rector": "^1.2||^2.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "VendorName\\Skeleton\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "VendorName\\Skeleton\\Tests\\": "tests/",
+            "Template\\": ".template/",
+            "Workbench\\App\\": "workbench/app/",
+            "Workbench\\Database\\Factories\\": "workbench/database/factories/",
+            "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "@php .template/init"
+        ],
+        "post-update-cmd": [
+            "@php .template/init"
+        ],
+        "post-autoload-dump": [
+            "@clear",
+            "@prepare"
+        ],
+        "prepare": [
+            "@php vendor/bin/testbench package:discover --ansi"
+        ],
+        "build": [
+            "@php vendor/bin/testbench workbench:build --ansi"
+        ],
+        "serve": [
+            "Composer\\Config::disableProcessTimeout",
+            "@build",
+            "@php vendor/bin/testbench serve --ansi"
+        ],
+        "phpstan": "vendor/bin/phpstan analyse -c ./tools/phpstan/phpstan.neon.dist --memory-limit 2G",
+        "analyse": [
+            "@phpstan"
+        ],
+        "style:fix": "vendor/bin/pint",
+        "style:check":"vendor/bin/pint --test",
+        "rector": "vendor/bin/rector -c ./tools/rector/config.php",
+        "rector:check": "@rector --dry-run",
+        "test": "vendor/bin/phpunit -c tests/phpunit.xml.dist --testdox --colors=always",
+        "test:parallel": "vendor/bin/paratest -c tests/phpunit.xml.dist",
+        "test:coverage": "@test:parallel --coverage-html ./build/coverage",
+        "test:coverage-ci": "@test:parallel --coverage-clover ./build/coverage.xml",
+        "switch": "composer update --with=illuminate/support:^$LARAVEL_VERSION",
+        "switch:l12": "LARAVEL_VERSION=12 composer run-script switch",
+        "switch:l13": "LARAVEL_VERSION=13 composer run-script switch",
+        "clear": [
+            "@php vendor/bin/testbench package:purge-skeleton --ansi"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "VendorName\\Skeleton\\SkeletonServiceProvider"
+            ],
+            "aliases": {
+                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+            }
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

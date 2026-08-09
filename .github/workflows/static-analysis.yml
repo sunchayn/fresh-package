@@ -1,0 +1,44 @@
+name: static-analysis
+
+on:
+  push:
+    branches: [base]
+  pull_request:
+
+jobs:
+  static-analysis:
+    name: static-analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Check for changes
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            static-analysis:
+              - '**.php'
+              - 'tools/phpstan/phpstan.neon.dist'
+              - '.github/workflows/static-analysis.yml'
+              - 'composer.json'
+              - 'composer.lock'
+
+      - name: Setup PHP
+        if: steps.filter.outputs.static-analysis == 'true'
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+
+      - name: Install composer dependencies
+        if: steps.filter.outputs.static-analysis == 'true'
+        uses: ramsey/composer-install@v4
+        with:
+          composer-options: --no-scripts
+
+      - name: Run static analysis
+        if: steps.filter.outputs.static-analysis == 'true'
+        run: composer analyse

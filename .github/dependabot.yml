@@ -1,0 +1,38 @@
+# See the documentation for all configuration options.
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "composer"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+    groups:
+      composer:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
+    directory: "/.template/stubs/with-frontend"
+    versioning-strategy: increase
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+    groups:
+      npm:
+        patterns:
+          - "*"

@@ -1,0 +1,49 @@
+{
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "lint": "eslint --config tools/eslint/.eslintrc.cjs --ignore-path tools/eslint/.eslintignore resources/js --ext .ts,.vue",
+        "prettier": "prettier --config tools/prettier/.prettierrc.json --ignore-path tools/prettier/.prettierignore resources/js",
+        "style:check": "npm run lint && npm run prettier -- --check .",
+        "style:fix": "npm run lint -- --fix && npm run prettier -- --write .",
+        "type:check": "vue-tsc --noEmit --project tsconfig.json",
+        "vite": "vite --config vite.config.js",
+        "build": "npm run type:check && npm run vite -- build",
+        "build:dev": "npm run vite -- build --mode=development",
+        "dev": "npm run vite -- dev",
+        "test": "vitest --config resources/js/tests/vitest.config.ts",
+        "test:run": "npm run test -- run"
+    },
+    "devDependencies": {
+        "@rushstack/eslint-patch": "^1.8.0",
+        "@tailwindcss/vite": "^4.1.13",
+        "@types/node": "^22.13.5",
+        "@typescript-eslint/eslint-plugin": "^8.43.0",
+        "@typescript-eslint/parser": "^8.43.0",
+        "@vitejs/plugin-vue": "^5.2.1",
+        "@vitest/coverage-v8": "^4.1.2",
+        "@vue/eslint-config-prettier": "^9.0.0",
+        "@vue/eslint-config-typescript": "^13.0.0",
+        "@vue/test-utils": "^2.4.6",
+        "eslint": "^8.57.0",
+        "eslint-config-prettier": "^10.1.8",
+        "eslint-plugin-prettier": "^5.5.4",
+        "eslint-plugin-vue": "^9.23.0",
+        "jsdom": "^27.0.0",
+        "laravel-vite-plugin": "^1.2.0",
+        "prettier": "^3.3.0",
+        "prettier-plugin-tailwindcss": "^0.6.11",
+        "tailwindcss": "^4.1.13",
+        "typescript": "^5.6.3",
+        "vite": "^6.1.0",
+        "vitest": "^4.1.2",
+        "vue": "^3.5.0",
+        "vue-eslint-parser": "^10.2.0",
+        "vue-tsc": "^2.0.24"
+    },
+    "dependencies": {
+        "axios": "^1.8.2",
+        "pinia": "^3.0.1",
+        "vue-router": "^4.2.5"
+    }
+}

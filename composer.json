@@ -77,7 +77,7 @@
             "@phpstan"
         ],
         "style:fix": "vendor/bin/pint",
-        "style:check":"vendor/bin/pint --test",
+        "style:check": "vendor/bin/pint --test",
         "rector": "vendor/bin/rector -c ./tools/rector/config.php",
         "rector:check": "@rector --dry-run",
         "test": "vendor/bin/phpunit -c tests/phpunit.xml.dist --testdox --colors=always",

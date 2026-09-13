@@ -63,7 +63,7 @@ jobs:
         run: composer rector
 
       - name: Commit Rector changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "refactor: apply rector"
 
@@ -71,7 +71,7 @@ jobs:
         run: composer style:fix
 
       - name: Commit php changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "style: apply php style fixes"
 

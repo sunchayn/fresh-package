@@ -35,7 +35,7 @@ jobs:
 
       - name: Install composer dependencies
         if: steps.filter.outputs.static-analysis == 'true'
-        uses: ramsey/composer-install@v3
+        uses: ramsey/composer-install@v4
 
       - name: Run static analysis
         if: steps.filter.outputs.static-analysis == 'true'

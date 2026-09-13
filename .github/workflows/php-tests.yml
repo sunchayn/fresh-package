@@ -76,7 +76,7 @@ jobs:
 
       - name: Upload coverage reports to Codecov
         if: needs.changes.outputs.php == 'true' && matrix.php == '8.5' && matrix.laravel == 13
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v7
         with:
           file: ./build/coverage.xml
         env:

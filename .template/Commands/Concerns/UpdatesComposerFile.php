@@ -125,7 +125,10 @@ trait UpdatesComposerFile
         }
 
         if (in_array(AiSupportChoice::key(), $selectedChoiceKeys, true)) {
-            return $this->addScriptToHook($composer, 'post-update-cmd', 'npx agenteq sync --yes');
+            $composer = $this->addScriptToHook($composer, 'post-install-cmd', 'npx agenteq init --yes --skip-in-ci');
+            $composer = $this->addScriptToHook($composer, 'post-update-cmd', 'npx agenteq sync --yes --skip-in-ci');
+
+            return $composer;
         }
 
         return $composer;

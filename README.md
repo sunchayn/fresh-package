@@ -4,20 +4,20 @@ An opinionated skeleton for scaffolding a modular and decluttered Laravel packag
 
 ## What's included
 
-- Native package (doesn't depend on another package to function).
-- Modular structure.
+- Native package (doesn't depend on another package to function, such as the Spatie package tool).
+- Modular structure (also enforced with optional skills).
 - Classic Tooling: PHPUnit (instead of Pest), Larastan, Rector, and Pint (default styling).
 - Laravel Version switcher (composer switch:l12 or composer switch:l13).
-- GitHub Actions for testing, auto-release, static analysis, auto-formatting (style and rector).
-- A `workbench/` app (Orchestra Testbench) to run and click through the package on its own, with no host application needed.
+- Thorough GitHub Actions (with fork submission support) for testing with coverage (Codecov), auto-release, static analysis, and auto-formatting (Pint and rector).
+- A `workbench/` app (inherited from laravel package default's skeleton) to run and click through the package on its own, with no host application needed.
 - Optional, off by default: a modular Vue 3, Tailwind v4, Vite, TypeScript frontend.
-- Optional, on by default, each removable individually:
+- Optional repository settings, on by default, each removable individually:
     - Dependabot.
     - An issue template.
     - Auto release and changelog creation.
     - Funding policy.
     - Security policy.
-- Optional, on by default:
+- Optional features, on by default:
     - AI Support (Guidelines + Skills)
 
 ## Quick start

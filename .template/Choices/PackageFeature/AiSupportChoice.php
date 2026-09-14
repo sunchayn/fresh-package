@@ -23,6 +23,6 @@ class AiSupportChoice extends AbstractChoice
     #[\Override]
     public function onSelect(Chisel $chisel, Metadata $metadata): void
     {
-        $chisel->copyDirectory('.template/stubs/ai-support', '.');
+        $chisel->copyDirectory('.template/stubs/ai_support_choice', '.');
     }
 }

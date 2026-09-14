@@ -14,35 +14,24 @@ trait RewritesPlaceholders
 {
     private function updateReadme(): void
     {
-        if (! file_exists($this->chisel->rootDir().'/'. 'README_PACKAGE.md')) {
+        if (! file_exists($this->chisel->rootDir().'/.template/stubs/repository_settings/README_PACKAGE.md')) {
             return;
         }
 
         $this->chisel->file('README.md')->delete();
 
-        $this->chisel->renamePath('README_PACKAGE.md', 'README.md');
-    }
-
-    private function updateChangelog(): void
-    {
-        if (! file_exists($this->chisel->rootDir().'/'. 'CHANGELOG_PACKAGE.md')) {
-            return;
-        }
-
-        $this->chisel->file('CHANGELOG.md')->delete();
-
-        $this->chisel->renamePath('CHANGELOG_PACKAGE.md', 'CHANGELOG.md');
+        $this->chisel->renamePath('.template/stubs/repository_settings/README_PACKAGE.md', 'README.md');
     }
 
     private function updateContributingGuide(): void
     {
-        if (! file_exists($this->chisel->rootDir().'/.github/CONTRIBUTING_PACKAGE.md')) {
+        if (! file_exists($this->chisel->rootDir().'/.template/stubs/repository_settings/.github/CONTRIBUTING_PACKAGE.md')) {
             return;
         }
 
         $this->chisel->file('.github/CONTRIBUTING.md')->delete();
 
-        $this->chisel->renamePath('.github/CONTRIBUTING_PACKAGE.md', '.github/CONTRIBUTING.md');
+        $this->chisel->renamePath('.template/stubs/repository_settings/.github/CONTRIBUTING_PACKAGE.md', '.github/CONTRIBUTING.md');
     }
 
     /**
@@ -93,7 +82,6 @@ trait RewritesPlaceholders
             'src/Facades/Skeleton.php' => "src/Facades/{$className}.php",
             'src/Console/Commands/SkeletonCommand.php' => "src/Console/Commands/{$className}Command.php",
             'config/skeleton.php' => "config/{$packageSlug}.php",
-            'resources/boost/skills/skeleton' => "resources/boost/skills/{$packageSlug}-development",
         ];
 
         foreach ($toRename as $from => $to) {

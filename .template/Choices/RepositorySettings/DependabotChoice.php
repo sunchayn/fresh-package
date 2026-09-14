@@ -21,9 +21,14 @@ class DependabotChoice extends AbstractChoice
     }
 
     #[\Override]
+    public function onSelect(Chisel $chisel, Metadata $metadata): void
+    {
+        $chisel->renamePath('.template/stubs/repository_settings/.github/dependabot.yml', '.github/dependabot.yml');
+    }
+
+    #[\Override]
     public function onDecline(Chisel $chisel, Metadata $metadata): void
     {
-        $chisel->file('.github/dependabot.yml')->delete();
         $chisel->file('README.md')->removeLinesContaining('Dependabot');
     }
 

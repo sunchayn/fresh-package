@@ -21,8 +21,8 @@ class FundingChoice extends AbstractChoice
     }
 
     #[\Override]
-    public function onDecline(Chisel $chisel, Metadata $metadata): void
+    public function onSelect(Chisel $chisel, Metadata $metadata): void
     {
-        $chisel->file('.github/FUNDING.yml')->delete();
+        $chisel->renamePath('.template/stubs/repository_settings/.github/FUNDING.yml', '.github/FUNDING.yml');
     }
 }

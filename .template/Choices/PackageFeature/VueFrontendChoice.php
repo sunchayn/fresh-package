@@ -32,7 +32,7 @@ class VueFrontendChoice extends AbstractChoice
     #[\Override]
     public function onSelect(Chisel $chisel, Metadata $metadata): void
     {
-        $chisel->copyDirectory('.template/stubs/with-frontend', '.');
+        $chisel->copyDirectory('.template/stubs/vue_choice', '.');
 
         $providerPath = $metadata->providerPath();
         $packageSlug = $metadata->packageSlug();

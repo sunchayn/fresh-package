@@ -21,9 +21,14 @@ class SecurityPolicyChoice extends AbstractChoice
     }
 
     #[\Override]
+    public function onSelect(Chisel $chisel, Metadata $metadata): void
+    {
+        $chisel->renamePath('.template/stubs/repository_settings/.github/SECURITY.md', '.github/SECURITY.md');
+    }
+
+    #[\Override]
     public function onDecline(Chisel $chisel, Metadata $metadata): void
     {
-        $chisel->file('.github/SECURITY.md')->delete();
         $chisel->file('README.md')->removeMarkdownSection('Security Vulnerabilities');
     }
 }

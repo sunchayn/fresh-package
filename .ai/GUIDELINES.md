@@ -18,9 +18,9 @@ Opinionated Laravel package skeleton. It configures itself into a real package (
 - A **package feature**: config file, routes, translations, an example command, migrations, facade, publishable assets, AI support, the Laravel Boost skill, Blade frontend, Vue frontend.
 - A **repository setting**: Dependabot, GitHub issue template, auto-release automation, GitHub FUNDING.yml, security policy.
 
-Selecting a Choice keeps the matching source and wires it into `composer.json` and the service provider. Declining a Choice deletes the matching source and any reference to it. Blade and Vue frontends are mutually exclusive.
+Selecting a Choice wires the matching source into `composer.json` and the service provider; declining removes any reference to it. Package features the skeleton's own boot path or test suite depends on (config, routes, translations, commands, migrations, facade, assets, blade) keep their source at the repo root and get deleted on decline. Everything else (`ai_support`, `boost_skill`, `vue`, and every repository setting) keeps its source only under `.template/stubs/`, opt-in: nothing lands on the tree until the matching Choice is selected. Blade and Vue frontends are mutually exclusive.
 
-Once every Choice is resolved, placeholders are replaced with real package identity, `README.md` is generated from `README_PACKAGE.md`, and `.template/` deletes itself along with the `template:init` command. What remains is an ordinary Laravel package with no trace of the skeleton machinery.
+Once every Choice is resolved, placeholders are replaced with real package identity, `README.md` is generated from `.template/stubs/repository_settings/README_PACKAGE.md`, and `.template/` deletes itself along with the `template:init` command. What remains is an ordinary Laravel package with no trace of the skeleton machinery.
 
 ## How `template:init` works
 
@@ -36,7 +36,7 @@ Each selectable unit lives in `.template/Choices/PackageFeature/<Name>Choice.php
 
 Keep these in sync when you add or change one:
 - The `--[choice]`/`--no-[choice]` flag pair in `TemplateInitCommand`'s signature, and its entry in `PACKAGE_FEATURES` or `REPOSITORY_SETTINGS`.
-- Composer metadata and `README_PACKAGE.md`.
+- Composer metadata and `.template/stubs/repository_settings/README_PACKAGE.md`.
 - `dependsOn()` when a Choice's `onSelect`/`onDecline` needs another Choice's output or absence first. `AiSupportChoice` is a common dependency since it seeds `.ai/`.
 
 ## Chisel API
@@ -82,4 +82,4 @@ Keep these in sync when you add or change one:
 ## Skills
 
 - `skeleton-development`: changing this skeleton repo itself.
-- Package-facing skills (`scaffold-module`, `create-dto-action`, `create-query`, `write-php-code`, `write-comments`, `write-php-test`, `task-finalization`, `package-release`, `package-compatibility`, `package-generate-skill`) live in `.template/stubs/ai-support/.ai/skills/`, not here. Read them from that path.
+- Package-facing skills (`scaffold-module`, `create-dto-action`, `create-query`, `write-php-code`, `write-comments`, `write-php-test`, `task-finalization`, `package-compatibility`) live in `.template/stubs/ai_support_choice/.ai/skills/`, not here. `package-release` lives in `.template/stubs/repository_settings/.ai/skills/`, and `package-generate-skill` in `.template/stubs/boost_skill_choice/.ai/skills/`; both only land in the configured package's `.ai/skills/` when their own choice is selected too. Read them from those paths.

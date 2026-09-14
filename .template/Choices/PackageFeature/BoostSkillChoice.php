@@ -27,9 +27,24 @@ class BoostSkillChoice extends AbstractChoice
     }
 
     #[\Override]
+    public function onSelect(Chisel $chisel, Metadata $metadata): void
+    {
+        $chisel->copyDirectory('.template/stubs/boost_skill_choice/resources', 'resources');
+
+        $chisel->renamePath(
+            'resources/boost/skills/skeleton',
+            "resources/boost/skills/{$metadata->packageSlug()}-development",
+        );
+
+        // The package-generate-skill only belongs under .ai/, which only exists when ai_support is also selected.
+        if (is_dir($chisel->rootDir().'/.ai')) {
+            $chisel->copyDirectory('.template/stubs/boost_skill_choice/.ai', '.ai');
+        }
+    }
+
+    #[\Override]
     public function onDecline(Chisel $chisel, Metadata $metadata): void
     {
-        $chisel->files('resources/boost/skills', '.ai/skills/package-generate-skill')->delete();
         $chisel->file('.ai/GUIDELINES.md')->removeLinesContaining('package-generate-skill');
     }
 }

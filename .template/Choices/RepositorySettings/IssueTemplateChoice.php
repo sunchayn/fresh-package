@@ -21,8 +21,8 @@ class IssueTemplateChoice extends AbstractChoice
     }
 
     #[\Override]
-    public function onDecline(Chisel $chisel, Metadata $metadata): void
+    public function onSelect(Chisel $chisel, Metadata $metadata): void
     {
-        $chisel->file('.github/ISSUE_TEMPLATE')->delete();
+        $chisel->renamePath('.template/stubs/repository_settings/.github/ISSUE_TEMPLATE', '.github/ISSUE_TEMPLATE');
     }
 }

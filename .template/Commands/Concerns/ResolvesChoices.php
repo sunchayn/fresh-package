@@ -86,7 +86,7 @@ trait ResolvesChoices
 
             if (in_array(VueFrontendChoice::key(), (array) ($answers['package_features'] ?? []), true)) {
                 $chisel->file('.github/dependabot.yml')->replace(
-                    search: 'directory: "/.template/stubs/with-frontend"',
+                    search: 'directory: "/.template/stubs/vue_choice"',
                     replace: 'directory: "/"',
                 );
 
@@ -98,7 +98,7 @@ trait ResolvesChoices
 
 
                       - package-ecosystem: "npm"
-                        directory: "/.template/stubs/with-frontend"
+                        directory: "/.template/stubs/vue_choice"
                         versioning-strategy: increase
                         schedule:
                           interval: "weekly"

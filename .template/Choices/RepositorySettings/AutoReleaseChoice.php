@@ -28,6 +28,18 @@ class AutoReleaseChoice extends AbstractChoice
     }
 
     #[\Override]
+    public function onSelect(Chisel $chisel, Metadata $metadata): void
+    {
+        $chisel->file('CHANGELOG.md')->delete();
+        $chisel->renamePath('.template/stubs/repository_settings/CHANGELOG_PACKAGE.md', 'CHANGELOG.md');
+
+        // The package-release skill only belongs under .ai/, which only exists when ai_support is also selected.
+        if (is_dir($chisel->rootDir().'/.ai')) {
+            $chisel->renamePath('.template/stubs/repository_settings/.ai/skills/package-release', '.ai/skills/package-release');
+        }
+    }
+
+    #[\Override]
     public function onDecline(Chisel $chisel, Metadata $metadata): void
     {
         $chisel
@@ -36,7 +48,6 @@ class AutoReleaseChoice extends AbstractChoice
                 'release-please-config.json',
                 '.release-please-manifest.json',
                 '.github/workflows/release.yml',
-                '.ai/skills/package-release',
             )
             ->delete();
 

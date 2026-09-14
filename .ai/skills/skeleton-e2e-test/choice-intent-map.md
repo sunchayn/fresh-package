@@ -2,11 +2,11 @@
 
 This is the source of truth the `skeleton-e2e-test` skill checks itself against before running anything. Every row here must correspond to exactly one `key()` in `.template/Choices/PackageFeature/*.php` or `.template/Choices/RepositorySettings/*.php`, and every such `key()` must have a row here. If they drift apart, the skill stops instead of testing against a stale map.
 
-Last verified against the codebase: 2026-09-13.
+Last verified against the codebase: 2026-09-14.
 
 ## Universal, on every successful `template:init` run, regardless of choices
 - `.template/` is gone, along with the `template:init` and `template:sandbox` commands.
-- `README_PACKAGE.md` and `.github/CONTRIBUTING_PACKAGE.md` are gone, `README.md` and `CONTRIBUTING.md` are generated in their place.
+- `.template/stubs/repository_settings/README_PACKAGE.md` and `.template/stubs/repository_settings/.github/CONTRIBUTING_PACKAGE.md` are gone (along with the rest of `.template/`), `README.md` and `CONTRIBUTING.md` are generated in their place.
 - No literal `:author_name`, `:package_name`, `:vendor_slug`, or `:package_slug` remains anywhere.
 - `composer.json` no longer lists `@php .template/init` under `post-install-cmd` or `post-update-cmd`, and drops the hook entirely if that was its only command.
 - If `ai_support` is selected, `composer.json` gains `npx agenteq sync --yes` under `post-update-cmd`.
@@ -27,7 +27,7 @@ Selected means present, declined means absent, unless noted.
 | `ai_support` | `.ai/` (GUIDELINES.md, skills) | `.ai/` entirely, always deleted first regardless of selection, then recreated only if selected |
 | `boost_skill` | `resources/boost/skills/<slug>-development/` | that directory, `.ai/skills/package-generate-skill` if `ai_support` is also present, "Boost"/"boost" mentions in README and GUIDELINES |
 | `blade` | `resources/views/placeholder.blade.php` | that file, the test views section, `.ai/skills/scaffold-module/SKILL.md` no longer mentions `resources/views` |
-| `vue` | the with-frontend stub tree (`resources/js/`, `resources/css/`, `package.json`, `vite.config.js`, `tsconfig.json`), a `publishes()` call for `resources/dist` in the provider, a `Route::view` line in `routes/web.php` | none of the above, and no `resources/js` mention left in `.ai/GUIDELINES.md` or the scaffold-module skill if `ai_support` is present |
+| `vue` | the vue_choice stub tree (`resources/js/`, `resources/css/`, `package.json`, `vite.config.js`, `tsconfig.json`), a `publishes()` call for `resources/dist` in the provider, a `Route::view` line in `routes/web.php` | none of the above, and no `resources/js` mention left in `.ai/GUIDELINES.md` or the scaffold-module skill if `ai_support` is present |
 
 `blade` and `vue` share the provider's views section (the `loadViewsFrom()` call and its `publishes()` block) and the README "Publishing the Views" section, since Vue's own view lives in the same `resources/views` directory Blade's placeholder used. Both only disappear once neither `blade` nor `vue` is selected. `blade` and `vue` are also mutually exclusive, selecting both must fail `template:init` outright with no mutation to the tree at all, not just conflicting output.
 

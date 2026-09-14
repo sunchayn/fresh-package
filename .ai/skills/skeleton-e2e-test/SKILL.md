@@ -18,7 +18,7 @@ Read `choice-intent-map.md` in this skill's directory. It is the source of truth
 ## Two `.ai/` folders exist. Do not confuse them.
 
 - The skeleton repo's own root `.ai/` holds guidance for developing the skeleton itself. No Choice reads it, writes it, or is tested against it. Do not assert against it. Do not copy it. Do not treat its content as a Choice's output.
-- `.template/stubs/ai-support/.ai/` is the stub. `AiSupportChoice::onSelect` copies it to `.ai/` at the root of the tree `template:init` runs in. Every other Choice that touches a `.ai/...` path edits that copy, inside the sandbox, not the skeleton repo.
+- `.template/stubs/ai_support_choice/.ai/` is the stub. `AiSupportChoice::onSelect` copies it to `.ai/` at the root of the tree `template:init` runs in. Every other Choice that touches a `.ai/...` path edits that copy, inside the sandbox, not the skeleton repo.
 - Resolve every `.ai/GUIDELINES.md` or `.ai/skills/...` check against `.template/.sandbox/<profile>/.ai/...` inside the worktree. Do not resolve it against the skeleton repo's own root `.ai/`. That file holds different content. No Choice touches it. Checking it there gives a false pass or a false fail.
 
 ## Step 1. Freshness check, stop here if it fails
@@ -81,7 +81,7 @@ For every profile that succeeded, walk `choice-intent-map.md` row by row against
 4. Where two choices share a resource, as `blade`/`vue` and `assets`/`vue` do today, confirm the shared resource's fate matches the combined state of both, not just one.
 5. Beyond the map, use your own judgement. The map is just a basis.
 6. If something looks wrong that the map does not explicitly cover, for example a duplicated registration, a dangling reference, an empty file, or a namespace that would not actually resolve at runtime, check it and log it.
-7. For every literal path string passed to `$chisel->file()`, `$chisel->files()`, or `$chisel->copyDirectory()`, confirm the path resolves inside the sandbox after mirroring. Do not trust that the Choice ran without error. Chisel no-ops silently on a missing path. A passing run and a silent no-op look identical unless you check the result. Cross-check every `.ai/...` literal against `.template/stubs/ai-support/.ai/`'s structure, per the section above. Cross-check every other literal against the stub or base tree its `copyDirectory` call actually seeds from.
+7. For every literal path string passed to `$chisel->file()`, `$chisel->files()`, or `$chisel->copyDirectory()`, confirm the path resolves inside the sandbox after mirroring. Do not trust that the Choice ran without error. Chisel no-ops silently on a missing path. A passing run and a silent no-op look identical unless you check the result. Cross-check every `.ai/...` literal against `.template/stubs/ai_support_choice/.ai/`'s structure, per the section above. Cross-check every other literal against the stub or base tree its `copyDirectory` call actually seeds from.
 8. Open every markdown file a Choice edited with `removeLinesContaining`, `removeSection`, or `removeMarkdownSection`. Read it whole, not just the diff. Confirm no sentence is cut off mid-thought and no list is missing an item it should still have.
 9. Check each removed line on its own merit before accepting the removal. A line that mentions the declined feature alongside other, unrelated content must stay, with only the feature's own words removed, or the Choice needs a narrower match instead of a whole-line delete. For example, a line listing "config file, routes, the Laravel Boost skill, Blade frontend" covers four features. `removeLinesContaining('boost')` deletes the whole line, not just the Boost mention. That is wrong, and it is the same mistake this skill exists to catch.
 10. Flag any line that reads like a broken sentence, an incomplete list, or an orphaned fragment after the edit.
@@ -107,7 +107,7 @@ For every profile that succeeded, walk `choice-intent-map.md` row by row against
 - Committing the temporary profiles added in step 4, or porting them back into the main tree without being asked.
 - A report that states a check passed without logging what was actually checked.
 - Removing worktrees without asking first.
-- Asserting against, or copying from, the skeleton repo's own root `.ai/` folder instead of the sandbox's `.ai/`, seeded from `.template/stubs/ai-support/.ai/`. They hold unrelated content.
+- Asserting against, or copying from, the skeleton repo's own root `.ai/` folder instead of the sandbox's `.ai/`, seeded from `.template/stubs/ai_support_choice/.ai/`. They hold unrelated content.
 - Trusting that a Choice's `onSelect` or `onDecline` ran without throwing as proof it changed something. Chisel no-ops silently on a missing path. Check the resulting file, not just the exit code.
 - Accepting a whole-line delete on a declined feature's keyword without reading what else the line covers. A line about several features needs a narrower edit, not a full-line removal.
 
@@ -118,4 +118,4 @@ For every profile that succeeded, walk `choice-intent-map.md` row by row against
 - .template/Commands/TemplateSandboxCommand.php
 - .template/Commands/Concerns/MirrorsProjectFiles.php
 - .template/Choices
-- .template/stubs/ai-support/.ai/, the stub every `.ai/...` path a Choice touches actually resolves from
+- .template/stubs/ai_support_choice/.ai/, the stub every `.ai/...` path a Choice touches actually resolves from

@@ -26,7 +26,7 @@ updates:
           - "*"
 
   - package-ecosystem: "npm"
-    directory: "/.template/stubs/with-frontend"
+    directory: "/.template/stubs/vue_choice"
     versioning-strategy: increase
     schedule:
       interval: "weekly"

@@ -264,6 +264,8 @@ class TemplateInitCommand extends Command
     {
         $this->updateReadme();
 
+        $this->updateChangelog();
+
         $this->updateContributingGuide();
 
         $this->renameStubFiles($metadata);

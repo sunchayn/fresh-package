@@ -23,6 +23,17 @@ trait RewritesPlaceholders
         $this->chisel->renamePath('README_PACKAGE.md', 'README.md');
     }
 
+    private function updateChangelog(): void
+    {
+        if (! file_exists($this->chisel->rootDir().'/'. 'CHANGELOG_PACKAGE.md')) {
+            return;
+        }
+
+        $this->chisel->file('CHANGELOG.md')->delete();
+
+        $this->chisel->renamePath('CHANGELOG_PACKAGE.md', 'CHANGELOG.md');
+    }
+
     private function updateContributingGuide(): void
     {
         if (! file_exists($this->chisel->rootDir().'/.github/CONTRIBUTING_PACKAGE.md')) {
@@ -45,6 +56,7 @@ trait RewritesPlaceholders
         $packageSlug = $metadata->packageSlug();
 
         return [
+            ':today' => date('Y-m-d'),
             ':author_name' => $metadata->authorName(),
             ':author_email' => $metadata->authorEmail(),
             ':author_username' => $vendorSlug,

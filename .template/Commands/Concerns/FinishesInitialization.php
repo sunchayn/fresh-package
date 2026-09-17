@@ -28,7 +28,11 @@ trait FinishesInitialization
             'laravel/agent-detector', 'sunchayn/chisel-extended', 'laravel/prompts',
         ]);
 
-        $this->chisel->file('tools/phpstan/phpstan.neon.dist')->removeLinesContaining('- ../../.template');
+        $this->chisel->file('tools/phpstan/phpstan.neon.dist')
+            ->removeLinesContaining('- ../../.template/Choices')
+            ->removeLinesContaining('- ../../.template/Commands')
+            ->removeLinesContaining('- ../../.template/Contracts')
+            ->removeLinesContaining('- ../../.template/Metadata.php');
 
         $this->chisel->file('.template')->delete();
     }

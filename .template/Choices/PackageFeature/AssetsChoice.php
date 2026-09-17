@@ -24,6 +24,7 @@ class AssetsChoice extends AbstractChoice
     public function onSelect(Chisel $chisel, Metadata $metadata): void
     {
         $chisel->file($metadata->providerPath())->removeSectionMarkers('assets');
+        $chisel->file($metadata->providerPath())->removeSectionMarkers('any-features');
     }
 
     #[\Override]

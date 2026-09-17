@@ -5,12 +5,17 @@ declare(strict_types=1);
 namespace Template\Commands\Concerns;
 
 use Laravel\Chisel\Chisel;
+use Laravel\Chisel\Filesystem\PendingFiles;
 use Laravel\Chisel\Question;
 use Laravel\Chisel\Script;
 use LogicException;
 use Template\Choices\PackageFeature\AssetsChoice;
 use Template\Choices\PackageFeature\BladeFrontendChoice;
+use Template\Choices\PackageFeature\CommandsChoice;
+use Template\Choices\PackageFeature\ConfigChoice;
 use Template\Choices\PackageFeature\FacadeChoice;
+use Template\Choices\PackageFeature\MigrationsChoice;
+use Template\Choices\PackageFeature\TranslationsChoice;
 use Template\Choices\PackageFeature\VueFrontendChoice;
 use Template\Choices\RepositorySettings\DependabotChoice;
 use Template\Commands\TemplateInitCommand;
@@ -74,6 +79,24 @@ trait ResolvesChoices
                 $chisel->file('resources/views')->delete();
 
                 $chisel->file($metadata->providerPath())->removeSection('views');
+            },
+        );
+
+        // Each of these choices strips its own any-features markers in its own onSelect.
+        // This handles the one case none of them do, every one of them declined (the `else` block).
+        $script->selectedAny(
+            key: 'package_features',
+            values: [
+                ConfigChoice::key(),
+                TranslationsChoice::key(),
+                AssetsChoice::key(),
+                MigrationsChoice::key(),
+                CommandsChoice::key(),
+                BladeFrontendChoice::key(),
+                VueFrontendChoice::key(),
+            ],
+            else: function (Chisel $chisel) use ($metadata) {
+                $chisel->file($metadata->providerPath())->removeSection('any-features');
             },
         );
 

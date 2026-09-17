@@ -47,6 +47,12 @@ class SkeletonServiceProvider extends ServiceProvider
 
         /* @end-chisel-any-features */
 
+        /* @chisel-vue */
+        $this->publishes([
+            __DIR__.'/../resources/dist' => public_path('vendor/skeleton'),
+        ], ['skeleton', 'skeleton-assets']);
+        /* @end-chisel-vue */
+
         /* @chisel-config */
         $this->publishes([
             __DIR__.'/../config/skeleton.php' => config_path('skeleton.php'),

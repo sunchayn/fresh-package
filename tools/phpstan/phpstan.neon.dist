@@ -5,5 +5,8 @@ parameters:
         - ../../config
         - ../../database
         - ../../routes
-        - ../../.template
+        - ../../.template/Choices
+        - ../../.template/Commands
+        - ../../.template/Contracts
+        - ../../.template/Metadata.php
     tmpDir: build/phpstan

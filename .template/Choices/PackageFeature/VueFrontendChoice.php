@@ -38,19 +38,8 @@ class VueFrontendChoice extends AbstractChoice
         $packageSlug = $metadata->packageSlug();
 
         $chisel->file($providerPath)->removeSectionMarkers('views');
-
-        $chisel
-            ->file($providerPath)
-            ->insertAfter(
-                search: '/* @end-chisel-any-features */',
-                insertion: <<<PHP
-
-
-                        \$this->publishes([
-                            __DIR__.'/../resources/dist' => public_path('vendor/{$packageSlug}'),
-                        ], ['{$packageSlug}', '{$packageSlug}-assets']);
-                    PHP,
-            );
+        $chisel->file($providerPath)->removeSectionMarkers('vue');
+        $chisel->file($providerPath)->removeSectionMarkers('any-features');
 
         $chisel
             ->file('routes/web.php')
@@ -69,6 +58,7 @@ class VueFrontendChoice extends AbstractChoice
     #[\Override]
     public function onDecline(Chisel $chisel, Metadata $metadata): void
     {
+        $chisel->file($metadata->providerPath())->removeSection('vue');
         $chisel->file('.ai/GUIDELINES.md')->removeLinesContaining('resources/js');
         $chisel->file('.ai/skills/scaffold-module/SKILL.md')->removeLinesContaining('resources/js');
     }

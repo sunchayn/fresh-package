@@ -11,6 +11,8 @@ Last verified against the codebase: 2026-09-14.
 - `composer.json` no longer lists `@php .template/init` under `post-install-cmd` or `post-update-cmd`, and drops the hook entirely if that was its only command.
 - If `ai_support` is selected, `composer.json` gains `npx agenteq sync --yes` under `post-update-cmd`.
 - If `facade` is selected, `composer.json`'s `extra.laravel.aliases` is set, otherwise that key is absent entirely.
+- No file anywhere in the tree contains a literal `@chisel-` or `@end-chisel-` marker.
+- The provider's `any-features` section stays, markers stripped, if at least one of `config`, `translations`, `assets`, `migrations`, `commands`, `blade`, or `vue` is selected, since those are the only calls it wraps. Each of those choices strips the shared `any-features` markers in its own `onSelect`, the same way `blade` strips the shared `views` markers. It is removed entirely, markers and all, only when every one of them is declined, handled by a `selectedAny()` in `ResolvesChoices::buildChiselScript()` with only an `else` branch.
 
 ## Per choice, package features
 Selected means present, declined means absent, unless noted.
@@ -27,7 +29,7 @@ Selected means present, declined means absent, unless noted.
 | `ai_support` | `.ai/` (GUIDELINES.md, skills) | `.ai/` entirely, always deleted first regardless of selection, then recreated only if selected |
 | `boost_skill` | `resources/boost/skills/<slug>-development/` | that directory, `.ai/skills/package-generate-skill` if `ai_support` is also present, "Boost"/"boost" mentions in README and GUIDELINES |
 | `blade` | `resources/views/placeholder.blade.php` | that file, the test views section, `.ai/skills/scaffold-module/SKILL.md` no longer mentions `resources/views` |
-| `vue` | the vue_choice stub tree (`resources/js/`, `resources/css/`, `package.json`, `vite.config.js`, `tsconfig.json`), a `publishes()` call for `resources/dist` in the provider, a `Route::view` line in `routes/web.php` | none of the above, and no `resources/js` mention left in `.ai/GUIDELINES.md` or the scaffold-module skill if `ai_support` is present |
+| `vue` | the vue_choice stub tree (`resources/js/`, `resources/css/`, `package.json`, `vite.config.js`, `tsconfig.json`), the provider's `vue` section (a `publishes()` call for `resources/dist`), a `Route::view` line in `routes/web.php` | none of the above, and no `resources/js` mention left in `.ai/GUIDELINES.md` or the scaffold-module skill if `ai_support` is present |
 
 `blade` and `vue` share the provider's views section (the `loadViewsFrom()` call and its `publishes()` block) and the README "Publishing the Views" section, since Vue's own view lives in the same `resources/views` directory Blade's placeholder used. Both only disappear once neither `blade` nor `vue` is selected. `blade` and `vue` are also mutually exclusive, selecting both must fail `template:init` outright with no mutation to the tree at all, not just conflicting output.
 

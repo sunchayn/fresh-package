@@ -24,6 +24,7 @@ class MigrationsChoice extends AbstractChoice
     public function onSelect(Chisel $chisel, Metadata $metadata): void
     {
         $chisel->file($metadata->providerPath())->removeSectionMarkers('migrations');
+        $chisel->file($metadata->providerPath())->removeSectionMarkers('any-features');
     }
 
     #[\Override]

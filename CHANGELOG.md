@@ -5,6 +5,13 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.2.1](https://github.com/sunchayn/fresh-package/compare/v0.2.0...v0.2.1) (2026-09-18)
+
+
+### Bug Fixes
+
+* properly remove leftover marker/guard ([ddf4b45](https://github.com/sunchayn/fresh-package/commit/ddf4b45e9fd3e3ca3ec21ca82fa565f861463830))
+
 ## [0.2.0](https://github.com/sunchayn/fresh-package/compare/v0.1.2...v0.2.0) (2026-09-14)
 
 

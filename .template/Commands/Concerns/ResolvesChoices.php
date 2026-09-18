@@ -95,7 +95,7 @@ trait ResolvesChoices
                 BladeFrontendChoice::key(),
                 VueFrontendChoice::key(),
             ],
-            else: function (Chisel $chisel) use ($metadata) {
+            else: function (Chisel $chisel) use ($metadata): void {
                 $chisel->file($metadata->providerPath())->removeSection('any-features');
             },
         );

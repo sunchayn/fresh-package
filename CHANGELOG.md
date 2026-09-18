@@ -5,6 +5,13 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.2.3](https://github.com/sunchayn/fresh-package/compare/v0.2.2...v0.2.3) (2026-09-18)
+
+
+### Maintenance
+
+* remove unwanted references from package's rules ([2fcb252](https://github.com/sunchayn/fresh-package/commit/2fcb2523ee9649e840e4ecf596092ff26999f160))
+
 ## [0.2.2](https://github.com/sunchayn/fresh-package/compare/v0.2.1...v0.2.2) (2026-09-18)
 
 

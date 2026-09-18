@@ -19,7 +19,7 @@ Write PHP that reads as plain Laravel package code: strictly typed, explicit, an
 ## Workflow
 
 1. Use constructor property promotion for dependencies and value objects. Never leave an empty zero-parameter `__construct()`.
-2. Place the class under the directory `scaffold-module` assigns to its concern (`src/Http/Api`, `src/Http/Web`, `src/Modules/<Domain>`, `src/Console/Commands`). Use `scaffold-module` for which `src/Modules/<Domain>` subfolder it belongs in, and whether it earns one at all.
+2. Place the class under the directory `scaffold-module` assigns to its concern (`src/Http/<Domain>`, `src/Modules/<Domain>`, `src/Console/Commands`). Use `scaffold-module` for which `src/Modules/<Domain>` subfolder it belongs in, and whether it earns one at all.
 3. Prefer an explicit Laravel or Collection API (`loadRoutesFrom`, `publishes`, `Str::slug()`, `Arr::map()`, `$collection->pluck()`) over a hand-rolled equivalent or a repository-local wrapper.
 4. Add a new class only when it has one responsibility a controller, command, or the service provider should not hold directly. Use `match` over nested ternaries for multi-branch conditionals.
 5. Apply [write-comments](../write-comments/SKILL.md) to every comment written or reviewed.

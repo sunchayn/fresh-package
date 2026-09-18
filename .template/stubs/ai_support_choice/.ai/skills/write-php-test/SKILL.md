@@ -36,7 +36,7 @@ Prove package behavior with PHPUnit, Paratest, and Orchestra Testbench, formatte
 - To test publishable assets, migrations, views, lang files, or config, invoke the vendor publish behavior. Assert the target path exists.
 - Test routes with Testbench HTTP requests. Test commands with Artisan assertions. Test migrations with a SQLite test database. Test workbench behavior after running `composer build`, when needed.
 - A test asserting a job was dispatched: assert the dispatch, not the job's own side effects. The job's own test suite covers those.
-- A command test: `$this->artisan('skeleton:command')->assertSuccessful();` inside the Assert block. No output assertion is needed unless the command's output is part of its contract.
+- A command test: `$this->artisan('example:sync')->assertSuccessful();` inside the Assert block. No output assertion is needed unless the command's output is part of its contract.
 
 ## Anti-Patterns
 

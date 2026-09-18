@@ -13,6 +13,9 @@ Last verified against the codebase: 2026-09-14.
 - If `facade` is selected, `composer.json`'s `extra.laravel.aliases` is set, otherwise that key is absent entirely.
 - No file anywhere in the tree contains a literal `@chisel-` or `@end-chisel-` marker.
 - The provider's `any-features` section stays, markers stripped, if at least one of `config`, `translations`, `assets`, `migrations`, `commands`, `blade`, or `vue` is selected, since those are the only calls it wraps. Each of those choices strips the shared `any-features` markers in its own `onSelect`, the same way `blade` strips the shared `views` markers. It is removed entirely, markers and all, only when every one of them is declined, handled by a `selectedAny()` in `ResolvesChoices::buildChiselScript()` with only an `else` branch.
+- No file anywhere in the tree mentions `.template/`, a `Choice` class, `chisel`, `template:init`/`template:sandbox`, `skeleton-development`, `skeleton-e2e-test`, or any other templating-engine concept.
+- No file anywhere in the tree has a leftover `skeleton`/`Skeleton` substring that reads as nonsense after placeholder replacement.
+- Every example path, class name, config key, publish tag, command signature, or route name matches something real in that same generated tree.
 
 ## Per choice, package features
 Selected means present, declined means absent, unless noted.
@@ -26,7 +29,7 @@ Selected means present, declined means absent, unless noted.
 | `migrations` | `database/migrations/` | that directory, README "Publishing and Running the Migrations" section, provider migrations section, the `../../database` line in phpstan config |
 | `facade` | `src/Facades/`, `composer.json` extra.laravel.aliases | `src/Facades/`, README facade mentions, the aliases key |
 | `assets` | `public/` | `public/`, README "Publishing the Public Assets" section, unless `vue` is selected, that section only disappears once both `assets` and `vue` are declined |
-| `ai_support` | `.ai/` (GUIDELINES.md, skills) | `.ai/` entirely, always deleted first regardless of selection, then recreated only if selected |
+| `ai_support` | `.ai/` (GUIDELINES.md, skills). Subject to the universal invariants above, same as any other file | `.ai/` entirely, always deleted first regardless of selection, then recreated only if selected |
 | `boost_skill` | `resources/boost/skills/<slug>-development/` | that directory, `.ai/skills/package-generate-skill` if `ai_support` is also present, "Boost"/"boost" mentions in README and GUIDELINES |
 | `blade` | `resources/views/placeholder.blade.php` | that file, the test views section, `.ai/skills/scaffold-module/SKILL.md` no longer mentions `resources/views` |
 | `vue` | the vue_choice stub tree (`resources/js/`, `resources/css/`, `package.json`, `vite.config.js`, `tsconfig.json`), the provider's `vue` section (a `publishes()` call for `resources/dist`), a `Route::view` line in `routes/web.php` | none of the above, and no `resources/js` mention left in `.ai/GUIDELINES.md` or the scaffold-module skill if `ai_support` is present |

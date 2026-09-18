@@ -266,6 +266,8 @@ class TemplateInitCommand extends Command
 
         $this->updateContributingGuide();
 
+        $this->updateGitignore();
+
         $this->renameStubFiles($metadata);
 
         $this->updateComposerFile(

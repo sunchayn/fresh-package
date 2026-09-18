@@ -34,6 +34,17 @@ trait RewritesPlaceholders
         $this->chisel->renamePath('.template/stubs/repository_settings/.github/CONTRIBUTING_PACKAGE.md', '.github/CONTRIBUTING.md');
     }
 
+    private function updateGitignore(): void
+    {
+        if (! file_exists($this->chisel->rootDir().'/.template/stubs/repository_settings/GITIGNORE_PACKAGE')) {
+            return;
+        }
+
+        $this->chisel->file('.gitignore')->delete();
+
+        $this->chisel->renamePath('.template/stubs/repository_settings/GITIGNORE_PACKAGE', '.gitignore');
+    }
+
     /**
      * @return array<string, string>
      */

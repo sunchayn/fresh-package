@@ -1,0 +1,13 @@
+/vendor
+/build
+/tools/phpstan/build
+/tests/.phpunit.cache
+/tests/.phpunit.result.cache
+/coverage
+composer.lock
+.DS_Store
+.idea
+.vscode
+/node_modules
+/resources/dist
+package-lock.json

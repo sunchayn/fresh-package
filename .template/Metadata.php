@@ -144,7 +144,7 @@ class Metadata
             'vendor_namespace' => [
                 'label' => 'Vendor namespace',
                 'hint' => 'Used as the top-level PHP namespace, for example VendorName\\PackageName.',
-                'default' => fn (): mixed => $this->option('vendor-namespace') ?? $this->studly($this->slug($this->packageNameHuman())),
+                'default' => fn (): mixed => $this->option('vendor-namespace') ?? $this->studly($this->vendorSlug()),
                 'validate' => function ($value): ?string {
                     if (preg_match('/^[A-Z_a-z][A-Z_a-z0-9]*$/', $value) !== 1) {
                         return 'Vendor namespace must be a valid PHP namespace.';

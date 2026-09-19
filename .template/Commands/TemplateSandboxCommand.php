@@ -188,6 +188,7 @@ class TemplateSandboxCommand extends Command
         spin(fn (): string => $this->exec('composer test', $sandboxDir), 'Running tests...');
         spin(fn (): string => $this->exec('composer style:check', $sandboxDir), 'Checking code style...');
         spin(fn (): string => $this->exec('composer analyse', $sandboxDir), 'Running static analysis...');
+        spin(fn (): string => $this->exec('composer rector:check', $sandboxDir), 'Checking rector rules...');
 
         outro("SUCCESS: {$name}");
     }

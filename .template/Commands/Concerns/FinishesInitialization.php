@@ -34,6 +34,9 @@ trait FinishesInitialization
             ->removeLinesContaining('- ../../.template/Contracts')
             ->removeLinesContaining('- ../../.template/Metadata.php');
 
+        $this->chisel->file('tools/rector/config.php')
+            ->removeLinesContaining("__DIR__.'/../../.template',");
+
         $this->chisel->file('.template')->delete();
     }
 

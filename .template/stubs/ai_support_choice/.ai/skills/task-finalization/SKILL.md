@@ -20,8 +20,8 @@ Never call a change done until the tools that would catch a regression have actu
 
 1. Check which files changed (`git status`, `git diff --name-only`).
 2. If a PHP file under `src/`, `tests/`, `config/`, `database/`, or `workbench/` changed, run in order: `composer style:fix`, `composer analyse`, `composer rector:check` (or `composer rector` to apply), then `composer test:parallel` filtered to the affected area while iterating, and `composer test` before finishing.
-3. If `resources/js` changed (frontend feature kept), run `npm run style:check`, `npm run type:check`, and `npm run test`.
-4. If the implementation was delegated to a subagent, review its diff against `write-php-code`, `write-comments`, and `write-php-test` before accepting it. That delegation decision is made before writing code, not here.
+3. If the implementation was delegated to a subagent, review its diff against `write-php-code`, `write-comments`, and `write-php-test` before accepting it. That delegation decision is made before writing code, not here.
+4. If `resources/js` changed, run `npm run style:check`, `npm run type:check`, and `npm run test`.
 
 ## Examples
 

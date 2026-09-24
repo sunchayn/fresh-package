@@ -5,6 +5,26 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.3.0](https://github.com/sunchayn/fresh-package/compare/v0.2.4...v0.3.0) (2026-09-24)
+
+
+### Features
+
+* improve write-php-test skill ([1d7477f](https://github.com/sunchayn/fresh-package/commit/1d7477fb66839d6bdb4ac7046b051c632a50d982))
+* make workbench optional ([64cac02](https://github.com/sunchayn/fresh-package/commit/64cac024a3322a3a3ffa27d1cd37126854ff5308))
+
+
+### Bug Fixes
+
+* changelog structure ([d015d54](https://github.com/sunchayn/fresh-package/commit/d015d545af1883c587604bdbc28b5751ecf8ea18))
+* don't deadlock switch scripts ([edbacd2](https://github.com/sunchayn/fresh-package/commit/edbacd2717291368ce9dbfed4f2eeb4c49942ae8))
+
+
+### Maintenance
+
+* cleanup dead reference when FE is declined ([074450a](https://github.com/sunchayn/fresh-package/commit/074450a73b0809476d5de8b7a69736f419f172b8))
+* cleanup references ([b5aa3cb](https://github.com/sunchayn/fresh-package/commit/b5aa3cb86b70d3c4b5e25956a60058b25477bbaf))
+
 ## [0.2.4](https://github.com/sunchayn/fresh-package/compare/v0.2.3...v0.2.4) (2026-09-19)
 
 

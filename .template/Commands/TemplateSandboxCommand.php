@@ -41,6 +41,7 @@ class TemplateSandboxCommand extends Command
             '--routes',
             '--facade',
             '--migrations',
+            '--commands',
             '--auto-release',
             '--security-policy',
             '--no-blade',
@@ -52,7 +53,9 @@ class TemplateSandboxCommand extends Command
             '--no-dependabot',
             '--no-issue-template',
             '--no-funding',
-            '--no-commands',
+            // Keeps commands selected while workbench is declined.
+            // Larastan needs testbench.yaml's providers key here to reflect the command signature.
+            '--no-workbench',
         ],
         'all-in' => [
             '--config',
@@ -89,6 +92,7 @@ class TemplateSandboxCommand extends Command
             '--no-auto-release',
             '--no-funding',
             '--no-security-policy',
+            '--no-workbench',
         ],
         // Isolates the BladeFrontendChoice dependsOn AiSupportChoice ordering.
         // Verifies the mutation (related to AI files) that happens on onDecline for both frontend profiles.

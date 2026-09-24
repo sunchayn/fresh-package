@@ -9,7 +9,6 @@ An opinionated skeleton for scaffolding a modular and decluttered Laravel packag
 - Classic Tooling: PHPUnit (instead of Pest), Larastan, Rector, and Pint (default styling).
 - Laravel Version switcher (composer switch:l12 or composer switch:l13).
 - Thorough GitHub Actions (with fork submission support) for testing with coverage (Codecov), auto-release, static analysis, and auto-formatting (Pint and rector).
-- A `workbench/` app (inherited from laravel package default's skeleton) to run and click through the package on its own, with no host application needed.
 - Optional, off by default: a modular Vue 3, Tailwind v4, Vite, TypeScript frontend.
 - Optional repository settings, on by default, each removable individually:
     - Dependabot.
@@ -19,6 +18,7 @@ An opinionated skeleton for scaffolding a modular and decluttered Laravel packag
     - Security policy.
 - Optional features, on by default:
     - AI Support (Guidelines + Skills)
+    - A `workbench/` app (inherited from laravel package default's skeleton) to run and click through the package on its own, with no host application needed.
 
 ## Quick start
 

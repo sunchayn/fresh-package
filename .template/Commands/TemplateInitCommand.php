@@ -20,6 +20,7 @@ use Template\Choices\PackageFeature\MigrationsChoice;
 use Template\Choices\PackageFeature\RoutesChoice;
 use Template\Choices\PackageFeature\TranslationsChoice;
 use Template\Choices\PackageFeature\VueFrontendChoice;
+use Template\Choices\PackageFeature\WorkbenchChoice;
 use Template\Choices\RepositorySettings\AutoReleaseChoice;
 use Template\Choices\RepositorySettings\DependabotChoice;
 use Template\Choices\RepositorySettings\FundingChoice;
@@ -70,6 +71,7 @@ class TemplateInitCommand extends Command
         {--ai-support : Include AI support (Guidelines, Skills, etc.)} {--no-ai-support : Exclude AI support (Guidelines, Skills, etc.)}
         {--boost-skill : Include the bundled Laravel Boost skill} {--no-boost-skill : Exclude the bundled Laravel Boost skill}
         {--vue : Include the Vue, Tailwind, and Vite frontend, publishes compiled frontend assets under the same tag as --assets, mutually exclusive with --blade} {--no-vue : Exclude the Vue frontend (default)}
+        {--workbench : Include the workbench dev app for running and clicking through the package standalone} {--no-workbench : Exclude the workbench dev app}
         {--dependabot : Include Dependabot} {--no-dependabot : Exclude Dependabot}
         {--issue-template : Include the GitHub issue template} {--no-issue-template : Exclude the GitHub issue template}
         {--auto-release : Include changelog automation} {--no-auto-release : Exclude changelog automation}
@@ -91,6 +93,7 @@ class TemplateInitCommand extends Command
         BoostSkillChoice::class,
         BladeFrontendChoice::class,
         VueFrontendChoice::class,
+        WorkbenchChoice::class,
     ];
 
     /** @var list<class-string<ChoiceContract>> */

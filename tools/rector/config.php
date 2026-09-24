@@ -11,7 +11,6 @@ use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromStrictConstructorRec
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->paths([
         __DIR__.'/../../src',
-        __DIR__.'/../../workbench',
         __DIR__.'/../../tests',
         __DIR__.'/../../.template',
         __DIR__.'/..',

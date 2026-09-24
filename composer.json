@@ -44,10 +44,7 @@
     "autoload-dev": {
         "psr-4": {
             "VendorName\\Skeleton\\Tests\\": "tests/",
-            "Template\\": ".template/",
-            "Workbench\\App\\": "workbench/app/",
-            "Workbench\\Database\\Factories\\": "workbench/database/factories/",
-            "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
+            "Template\\": ".template/"
         }
     },
     "scripts": {
@@ -63,14 +60,6 @@
         ],
         "prepare": [
             "@php vendor/bin/testbench package:discover --ansi"
-        ],
-        "build": [
-            "@php vendor/bin/testbench workbench:build --ansi"
-        ],
-        "serve": [
-            "Composer\\Config::disableProcessTimeout",
-            "@build",
-            "@php vendor/bin/testbench serve --ansi"
         ],
         "phpstan": "vendor/bin/phpstan analyse -c ./tools/phpstan/phpstan.neon.dist --memory-limit 2G",
         "analyse": [

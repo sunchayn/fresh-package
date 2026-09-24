@@ -76,7 +76,6 @@ Keep these in sync when you add or change one:
 - Static analysis: `composer analyse`
 - Tests, in parallel: `composer test:parallel`
 - Switch Laravel version: `composer switch:l12` (or `l13`)
-- Workbench build/serve: `composer build` / `composer serve`
 - Verify the skeleton: `php .template/init template:sandbox --matrix`
 
 ## Skills

@@ -6,6 +6,7 @@ namespace Template\Commands\Concerns;
 
 use JsonException;
 use Template\Choices\PackageFeature\AiSupportChoice;
+use Template\Choices\PackageFeature\WorkbenchChoice;
 use Template\Commands\TemplateInitCommand;
 use Template\Metadata;
 
@@ -27,7 +28,7 @@ trait UpdatesComposerFile
         $namespace = $metadata->vendorNamespace().'\\'.$metadata->className().'\\';
 
         $composer = $this->setComposerIdentity($composer, $metadata);
-        $composer = $this->setComposerAutoload($composer, $namespace);
+        $composer = $this->setComposerAutoload($composer, $namespace, $selectedChoiceKeys);
         $composer = $this->setComposerLaravelExtra($composer, $metadata, $namespace, $selectedChoiceKeys);
         $composer = $this->setComposerScripts($composer, $selectedChoiceKeys);
 
@@ -62,9 +63,10 @@ trait UpdatesComposerFile
 
     /**
      * @param  array<string, mixed>  $composer Decoded composer.json contents.
+     * @param  list<string>  $selectedChoiceKeys Keys chosen by the user, or resolved from flags.
      * @return array<string, mixed> The same contents, with autoload rules set.
      */
-    private function setComposerAutoload(array $composer, string $namespace): array
+    private function setComposerAutoload(array $composer, string $namespace, array $selectedChoiceKeys): array
     {
         $composer['autoload']['psr-4'] = [$namespace => 'src/'];
 
@@ -74,6 +76,14 @@ trait UpdatesComposerFile
                 fn (string $key): bool => ! str_starts_with($key, 'VendorName\\Skeleton\\') && $key !== 'Template\\',
                 ARRAY_FILTER_USE_KEY,
             );
+
+        if (in_array(WorkbenchChoice::key(), $selectedChoiceKeys, true)) {
+            $composer['autoload-dev']['psr-4'] += [
+                'Workbench\\App\\' => 'workbench/app/',
+                'Workbench\\Database\\Factories\\' => 'workbench/database/factories/',
+                'Workbench\\Database\\Seeders\\' => 'workbench/database/seeders/',
+            ];
+        }
 
         return $composer;
     }
@@ -122,6 +132,15 @@ trait UpdatesComposerFile
             }
 
             $composer['scripts'][$hook] = $commands;
+        }
+
+        if (in_array(WorkbenchChoice::key(), $selectedChoiceKeys, true)) {
+            $composer['scripts']['build'] = ['@php vendor/bin/testbench workbench:build --ansi'];
+            $composer['scripts']['serve'] = [
+                'Composer\\Config::disableProcessTimeout',
+                '@build',
+                '@php vendor/bin/testbench serve --ansi',
+            ];
         }
 
         if (in_array(AiSupportChoice::key(), $selectedChoiceKeys, true)) {

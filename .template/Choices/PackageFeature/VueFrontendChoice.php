@@ -62,6 +62,10 @@ class VueFrontendChoice extends AbstractChoice
         $chisel->file('.ai/GUIDELINES.md')->removeLinesContaining('resources/js');
         $chisel->file('.ai/skills/scaffold-module/SKILL.md')->removeLinesContaining('resources/js');
         $chisel->file('.ai/skills/task-finalization/SKILL.md')->removeLinesContaining('resources/js');
+
+        $chisel
+            ->file('.ai/skills/write-comments/SKILL.md')
+            ->replace(', and for TypeScript/Vue', '');
     }
 
     /**

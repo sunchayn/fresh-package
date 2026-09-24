@@ -88,9 +88,14 @@ For every profile that succeeded, walk `choice-intent-map.md` row by row against
 11. Grep the whole sandbox tree, every profile, for leftover mentions of the templating engine, after placeholder replacement. Search for `.template`, `Choice` class names, `chisel`, `template:init`, `template:sandbox`, `skeleton-development`, `skeleton-e2e-test`, and phrases like "the skeleton repository". Check every text file, not just `.ai/`: `README.md`, `CONTRIBUTING.md`, `CHANGELOG.md`, docblocks under `src/` and `tests/`, `composer.json`, workflow YAML under `.github/`. None of this may appear in the shipped package.
 12. In those same files, check for a leftover `skeleton`/`Skeleton` substring. It comes from an English word that collided with the placeholder table in `RewritesPlaceholders.php` (for example "skeleton maintenance"). Read the replaced text in the sandbox, not the source stub. Confirm each sentence still reads correctly.
 13. Cross-check every example path, class name, config key, publish tag, command signature, or route name against the real sandbox, wherever it appears in the tree. Grep for it in `src/Console/Commands/*.php`'s `$signature`, `config/<slug>.php`'s keys, `routes/*.php`, and the real `src/` layout. An example must match something real, or be generic enough that no reader expects it to run as shown.
-14. State plainly when a check came from your own judgement rather than the map.
-15. Log every check performed as a short line, stating what was checked and what was found, whether it passed or not.
-16. This is not optional and it is not a summary. The report must contain the actual log, not a restatement that everything looked fine.
+14. Dead reference scan, run once per declined choice, against every text artifact in the sandbox, not only the ones the map names for that choice. This catches a mention the map's author never thought to list, the same class of bug as a stale `write-comments` skill description still promising TypeScript/Vue rules after `vue` was declined:
+    1. For the declined choice, list the terms unique to what its own `onSelect` adds: stub directory/file names under `.template/stubs/<choice>_choice/`, distinctive class or package names, config keys, or short phrases that only appear in that choice's own stub content, not in the shared baseline.
+    2. Grep the whole sandbox tree for each term: `.ai/GUIDELINES.md`, every `.ai/skills/*/SKILL.md`, `README.md`, `CONTRIBUTING.md`, `CHANGELOG.md`, docblocks, `composer.json`, `.github/` workflow YAML. Do not limit the grep to files the map already lists for that choice.
+    3. Any hit is a dead reference unless the term is generic enough to belong to the shared baseline (for example a word that is also plain English). Flag it with the exact file and line, the same as any other finding.
+    4. Repeat for every declined choice in the profile, not just the one the current change touched. A profile that declines five choices needs five scans.
+15. State plainly when a check came from your own judgement rather than the map.
+16. Log every check performed as a short line, stating what was checked and what was found, whether it passed or not.
+17. This is not optional and it is not a summary. The report must contain the actual log, not a restatement that everything looked fine.
 
 ## Step 7. Write the report
 
@@ -117,6 +122,8 @@ For every profile that succeeded, walk `choice-intent-map.md` row by row against
 - Reading a stub's source text instead of the replaced text in the sandbox. A sentence built on "skeleton" can read fine before replacement and turn to nonsense after.
 - Trusting that an example command, config key, or path is real because it sounds plausible. Grep the sandbox for it.
 - Checking `.ai/` only for these issues. Check the whole sandbox tree.
+- Running the dead reference scan against only the choice the current change touched. Every declined choice in the profile needs its own scan, regardless of what prompted this test run.
+- Limiting the dead reference scan to files the map already names for that choice. The scan exists precisely because the map can miss a file, the same way it missed the `write-comments` skill's description.
 
 ## References
 - choice-intent-map.md

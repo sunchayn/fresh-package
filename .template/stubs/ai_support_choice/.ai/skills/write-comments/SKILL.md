@@ -1,7 +1,7 @@
 ---
 name: write-comments
 
-description: "Comment writing and wrapping rules for PHP, and for TypeScript/Vue when the frontend feature is kept. Apply whenever writing or reviewing a comment in this package."
+description: "Comment writing and wrapping rules for PHP, and for TypeScript/Vue. Apply whenever writing or reviewing a comment in this package."
 
 license: MIT
 

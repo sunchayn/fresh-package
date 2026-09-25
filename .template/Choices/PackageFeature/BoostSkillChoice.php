@@ -39,6 +39,7 @@ class BoostSkillChoice extends AbstractChoice
         // The package-generate-skill only belongs under .ai/, which only exists when ai_support is also selected.
         if (is_dir($chisel->rootDir().'/.ai')) {
             $chisel->copyDirectory('.template/stubs/boost_skill_choice/.ai', '.ai');
+            $chisel->file('.ai/GUIDELINES.md')->removeSectionMarkers('boost-skill');
         }
     }
 
@@ -47,7 +48,7 @@ class BoostSkillChoice extends AbstractChoice
     {
         // The guidelines file only exists when ai_support is selected.
         if (is_file($chisel->rootDir().'/.ai/GUIDELINES.md')) {
-            $chisel->file('.ai/GUIDELINES.md')->removeLinesContaining('package-generate-skill');
+            $chisel->file('.ai/GUIDELINES.md')->removeSection('boost-skill');
         }
     }
 }

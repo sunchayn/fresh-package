@@ -1,7 +1,7 @@
 ---
 name: write-comments
 
-description: "Comment writing and wrapping rules for PHP, and for TypeScript/Vue. Apply whenever writing or reviewing a comment in this package."
+description: "Comment writing and wrapping rules for PHP<!-- @chisel-vue -->, and for TypeScript/Vue<!-- @end-chisel-vue -->. Apply whenever writing or reviewing a comment in this package."
 
 license: MIT
 

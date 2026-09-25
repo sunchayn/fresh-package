@@ -7,9 +7,10 @@ Last verified against the codebase: 2026-09-14.
 ## Universal, on every successful `template:init` run, regardless of choices
 - `.template/` is gone, along with the `template:init` and `template:sandbox` commands.
 - `.template/stubs/repository_settings/README_PACKAGE.md` and `.template/stubs/repository_settings/.github/CONTRIBUTING_PACKAGE.md` are gone (along with the rest of `.template/`), `README.md` and `CONTRIBUTING.md` are generated in their place.
+- When every publishable resource (`config`, `translations`, `assets`, `migrations`, `blade`, `vue`) is declined, the README's "publish all resources at once" intro is removed too.
 - No literal `:author_name`, `:package_name`, `:vendor_slug`, or `:package_slug` remains anywhere.
 - `composer.json` no longer lists `@php .template/init` under `post-install-cmd` or `post-update-cmd`, and drops the hook entirely if that was its only command.
-- If `ai_support` is selected, `composer.json` gains `npx agenteq sync --yes` under `post-update-cmd`.
+- If `ai_support` is selected, `composer.json` gains `npx agenteq init --yes --skip-in-ci` under `post-install-cmd` and `npx agenteq sync --yes --skip-in-ci` under `post-update-cmd`.
 - If `facade` is selected, `composer.json`'s `extra.laravel.aliases` is set, otherwise that key is absent entirely.
 - No file anywhere in the tree contains a literal `@chisel-` or `@end-chisel-` marker.
 - The provider's `any-features` section stays, markers stripped, if at least one of `config`, `translations`, `assets`, `migrations`, `commands`, `blade`, or `vue` is selected, since those are the only calls it wraps. Each of those choices strips the shared `any-features` markers in its own `onSelect`, the same way `blade` strips the shared `views` markers. It is removed entirely, markers and all, only when every one of them is declined, handled by a `selectedAny()` in `ResolvesChoices::buildChiselScript()` with only an `else` branch.

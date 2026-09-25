@@ -36,6 +36,7 @@ class AutoReleaseChoice extends AbstractChoice
         // The package-release skill only belongs under .ai/, which only exists when ai_support is also selected.
         if (is_dir($chisel->rootDir().'/.ai')) {
             $chisel->renamePath('.template/stubs/repository_settings/.ai/skills/package-release', '.ai/skills/package-release');
+            $chisel->files('.ai/GUIDELINES.md', '.ai/skills/scaffold-module/SKILL.md')->removeSectionMarkers('auto-release');
         }
     }
 
@@ -52,8 +53,8 @@ class AutoReleaseChoice extends AbstractChoice
             ->delete();
 
         $chisel->file('README.md')->removeMarkdownSection('Changelog');
-        if (is_file($chisel->rootDir().'/.ai/GUIDELINES.md')) {
-            $chisel->file('.ai/GUIDELINES.md')->removeLinesContaining('package-release');
+        if (is_dir($chisel->rootDir().'/.ai')) {
+            $chisel->files('.ai/GUIDELINES.md', '.ai/skills/scaffold-module/SKILL.md')->removeSection('auto-release');
         }
     }
 

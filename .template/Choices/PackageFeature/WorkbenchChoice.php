@@ -20,6 +20,13 @@ class WorkbenchChoice extends AbstractChoice
         return 'Workbench (Testbench dev app)';
     }
 
+    private const array AI_FILES = [
+        '.ai/GUIDELINES.md',
+        '.ai/skills/scaffold-module/SKILL.md',
+        '.ai/skills/task-finalization/SKILL.md',
+        '.ai/skills/write-php-test/SKILL.md',
+    ];
+
     #[\Override]
     public function dependsOn(): array
     {
@@ -37,6 +44,11 @@ class WorkbenchChoice extends AbstractChoice
             search: "__DIR__.'/../../src',",
             insertion: "        __DIR__.'/../../workbench',",
         );
+
+        // The .ai files only exist when ai_support is selected.
+        if (is_dir($chisel->rootDir().'/.ai')) {
+            $chisel->files(...self::AI_FILES)->removeSectionMarkers('workbench');
+        }
     }
 
     #[\Override]
@@ -44,20 +56,7 @@ class WorkbenchChoice extends AbstractChoice
     {
         // The .ai files only exist when ai_support is selected.
         if (is_dir($chisel->rootDir().'/.ai')) {
-            $chisel->file('.ai/GUIDELINES.md')->removeLinesContaining('Workbench build: `composer build`');
-            $chisel->file('.ai/GUIDELINES.md')->removeLinesContaining('Workbench server: `composer serve`');
-            $chisel->file('.ai/GUIDELINES.md')->replace(', workbench files,', ',');
-
-            $chisel->file('.ai/skills/scaffold-module/SKILL.md')->replace(', workbench files,', ',');
-
-            $chisel->file('.ai/skills/task-finalization/SKILL.md')
-                ->replace('`config/`, `database/`, or `workbench/`', '`config/`, or `database/`');
-
-            $chisel->file('.ai/skills/write-php-test/SKILL.md')
-                ->replace(' Test workbench behavior after running `composer build`, when needed.', '');
-
-            $chisel->file('.ai/skills/write-php-test/SKILL.md')
-                ->replace('where a test belongs, workbench behavior, commands,', 'where a test belongs, commands,');
+            $chisel->files(...self::AI_FILES)->removeSection('workbench');
         }
     }
 }

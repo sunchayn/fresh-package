@@ -18,6 +18,7 @@ You can install the package via Composer:
 composer require :vendor_slug/:package_slug
 ```
 
+<!-- @chisel-publish-intro -->
 You may publish all the package's resources at once with:
 
 ```bash
@@ -26,6 +27,7 @@ php artisan vendor:publish --tag=":package_slug"
 
 Or, you may publish each resource individually:
 
+<!-- @end-chisel-publish-intro -->
 ### Publishing the Configuration File
 
 ```bash

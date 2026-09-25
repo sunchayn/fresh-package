@@ -82,6 +82,21 @@ trait ResolvesChoices
             },
         );
 
+        // The README intro about publishing has nothing to point at once every publishable resource is declined.
+        $script->selectedAny(
+            key: 'package_features',
+            values: [
+                ConfigChoice::key(),
+                TranslationsChoice::key(),
+                AssetsChoice::key(),
+                MigrationsChoice::key(),
+                BladeFrontendChoice::key(),
+                VueFrontendChoice::key(),
+            ],
+            then: fn (Chisel $chisel) => $chisel->file('README.md')->removeSectionMarkers('publish-intro'),
+            else: fn (Chisel $chisel) => $chisel->file('README.md')->removeSection('publish-intro'),
+        );
+
         // The any-features section stays when at least one of these choices is selected, and goes otherwise.
         $script->selectedAny(
             key: 'package_features',

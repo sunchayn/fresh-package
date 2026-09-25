@@ -11,6 +11,13 @@ use Throwable;
 
 class VueFrontendChoice extends AbstractChoice
 {
+    private const array AI_FILES = [
+        '.ai/GUIDELINES.md',
+        '.ai/skills/scaffold-module/SKILL.md',
+        '.ai/skills/task-finalization/SKILL.md',
+        '.ai/skills/write-comments/SKILL.md',
+    ];
+
     private bool $installFailed = false;
 
     public static function key(): string
@@ -40,6 +47,11 @@ class VueFrontendChoice extends AbstractChoice
         $chisel->file($providerPath)->removeSectionMarkers('views');
         $chisel->file($providerPath)->removeSectionMarkers('vue');
 
+        // The .ai files only exist when ai_support is selected.
+        if (is_dir($chisel->rootDir().'/.ai')) {
+            $chisel->files(...self::AI_FILES)->removeSectionMarkers('vue');
+        }
+
         $chisel
             ->file('routes/web.php')
             ->insertAfter(
@@ -61,13 +73,7 @@ class VueFrontendChoice extends AbstractChoice
 
         // The .ai files only exist when ai_support is selected.
         if (is_dir($chisel->rootDir().'/.ai')) {
-            $chisel->file('.ai/GUIDELINES.md')->removeLinesContaining('resources/js');
-            $chisel->file('.ai/skills/scaffold-module/SKILL.md')->removeLinesContaining('resources/js');
-            $chisel->file('.ai/skills/task-finalization/SKILL.md')->removeLinesContaining('resources/js');
-
-            $chisel
-                ->file('.ai/skills/write-comments/SKILL.md')
-                ->replace(', and for TypeScript/Vue', '');
+            $chisel->files(...self::AI_FILES)->removeSection('vue');
         }
     }
 

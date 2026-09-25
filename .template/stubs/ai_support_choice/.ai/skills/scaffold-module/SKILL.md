@@ -1,7 +1,7 @@
 ---
 name: scaffold-module
 
-description: "Use this skill when adding a package capability or a new domain module: where the files go, which src/Modules subfolders it needs, and how it's wired through the service provider. Covers commands, migrations, routes, config, views, translations, assets, middleware, publish tags, workbench files, the frontend app, and console-only behavior."
+description: "Use this skill when adding a package capability or a new domain module: where the files go, which src/Modules subfolders it needs, and how it's wired through the service provider. Covers commands, migrations, routes, config, views, translations, assets, middleware, publish tags, <!-- @chisel-workbench -->workbench files,<!-- @end-chisel-workbench --> <!-- @chisel-vue -->the frontend app,<!-- @end-chisel-vue --> and console-only behavior."
 
 license: MIT
 
@@ -24,7 +24,10 @@ Add a capability, or open a new domain boundary, with exactly the files it needs
 4. Create the capability's files under Laravel-native package paths, following `write-php-code`'s coding conventions. Use the configured package names, namespaces, publish tags, URLs, and badges consistently.
 5. Add an HTTP transport layer only if the capability or module is reachable over HTTP: a controller under `src/Http/<Domain>/Controllers`, its request/resource pair under `src/Http/<Domain>/Requests` and `src/Http/<Domain>/Resources`, and the route in `routes/api.php` or `routes/web.php`. Console-only or internal-only work skips this entirely.
 6. Wire the capability through the service provider using the patterns in *Provider Wiring* below.
-7. Use `write-php-test` for coverage. Update README or contributing documentation when user-facing behavior changes. Use `package-compatibility` for matrix-sensitive changes. Use `package-release` for release tasks.
+7. Use `write-php-test` for coverage. Update README or contributing documentation when user-facing behavior changes. Use `package-compatibility` for matrix-sensitive changes.
+<!-- @chisel-auto-release -->
+Use `package-release` for release tasks.
+<!-- @end-chisel-auto-release -->
 8. Add only the files needed for the requested capability. Validate with `task-finalization`, starting with the narrowest relevant command before broader checks.
 
 ## Modules
@@ -58,7 +61,9 @@ Business logic for a domain lives under `src/Modules/<Domain>/`, kept out of `sr
 - To add a publishable migration, place the migration in `database/migrations`. Wire it through a console-guarded `publishesMigrations` call with a `:package_slug-migrations` tag. Test publish behavior with Testbench.
 - To wire a new publish tag, add a `publishes` map inside the existing console-guarded publishing method. Name the tag with the `:package_slug-*` convention.
 - To add an API endpoint for the `Greeting` domain, put the controller under `src/Http/Greeting/Controllers`, the request under `src/Http/Greeting/Requests`, and the resource under `src/Http/Greeting/Resources`. Add the route in `routes/api.php`. Keep any non-trivial business logic in `src/Modules/Greeting` rather than the controller.
-- To add a Vue page when the frontend is kept, put the component under `resources/js/pages`. Route it in `resources/js/app/router.ts`. Put shared logic in `composables/` or `stores/` rather than in the page component.
+<!-- @chisel-vue -->
+- To add a Vue page, put the component under `resources/js/pages`. Route it in `resources/js/app/router.ts`. Put shared logic in `composables/` or `stores/` rather than in the page component.
+<!-- @end-chisel-vue -->
 - Adding billing logic reachable only from a scheduled command: create `src/Modules/Billing/Actions/ChargeCustomerAction.php` and wire it into the command. No `Contracts/`, no HTTP layer, until something outside `Billing` needs one.
 - A second domain later needs to trigger billing without depending on its concrete Action: add the necessary contracts/events at that point, not before.
 

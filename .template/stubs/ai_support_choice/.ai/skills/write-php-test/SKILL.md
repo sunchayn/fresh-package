@@ -1,7 +1,7 @@
 ---
 name: write-php-test
 
-description: "Use this skill for writing, editing, fixing, or reviewing package tests with PHPUnit, Paratest, and Orchestra Testbench. Covers TDD, where a test belongs, workbench behavior, commands, routes, config, migrations, publishable resources, and a test's naming, block structure, and mocking conventions."
+description: "Use this skill for writing, editing, fixing, or reviewing package tests with PHPUnit, Paratest, and Orchestra Testbench. Covers TDD, where a test belongs, <!-- @chisel-workbench -->workbench behavior,<!-- @end-chisel-workbench --> commands, routes, config, migrations, publishable resources, and a test's naming, block structure, and mocking conventions."
 
 license: MIT
 
@@ -46,7 +46,10 @@ Prove package behavior with PHPUnit, Paratest, and Orchestra Testbench, formatte
 
 - To test config merge and override, assert the default package config value first. Then override the value in the Testbench app and assert the new value.
 - To test publishable assets, migrations, views, lang files, or config, invoke the vendor publish behavior. Assert the target path exists.
-- Test routes with Testbench HTTP requests. Test commands with Artisan assertions. Test migrations with a SQLite test database. Test workbench behavior after running `composer build`, when needed.
+- Test routes with Testbench HTTP requests. Test commands with Artisan assertions. Test migrations with a SQLite test database.
+<!-- @chisel-workbench -->
+Test workbench behavior after running `composer build`, when needed.
+<!-- @end-chisel-workbench -->
 - A test asserting a job was dispatched: assert the dispatch, not the job's own side effects. The job's own test suite covers those.
 - A command test: `$this->artisan('example:sync')->assertSuccessful();` inside the Assert block. No output assertion is needed unless the command's output is part of its contract.
 

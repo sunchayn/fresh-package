@@ -34,6 +34,7 @@ That is why, you must use the sandbox command instead to test the real flow safe
 php .template/init template:sandbox backend-only
 php .template/init template:sandbox with-frontend
 php .template/init template:sandbox --matrix   # every profile
+php .template/init template:sandbox --parallel # every profile, one process per CPU core
 ```
 
 #### How it works

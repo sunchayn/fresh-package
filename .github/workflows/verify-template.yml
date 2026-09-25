@@ -26,4 +26,4 @@ jobs:
           composer-options: --no-scripts
 
       - name: Run template:sandbox --matrix
-        run: php .template/init template:sandbox --matrix
+        run: php .template/init template:sandbox --matrix --parallel

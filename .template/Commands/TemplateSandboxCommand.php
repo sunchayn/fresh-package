@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Template\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Process\Factory as ProcessFactory;
 use RuntimeException;
 use Template\Commands\Concerns\MirrorsProjectFiles;
 use Throwable;
@@ -26,7 +27,8 @@ class TemplateSandboxCommand extends Command
 
     protected $signature = 'template:sandbox
         {profile? : Profile to run, see the PROFILES constant for the full list, or pass interactive. Omit to be prompted.}
-        {--matrix : Run all defined profiles in sequence.}';
+        {--matrix : Run all defined profiles in sequence.}
+        {--parallel : Run all defined profiles at once, in as many processes as there are CPU cores.}';
 
     protected $description = 'Run template:init inside a mirrored sandbox copy, for verifying the template itself.';
 
@@ -105,6 +107,10 @@ class TemplateSandboxCommand extends Command
     {
         $rootDir = rtrim(getcwd() ?: '.', '/');
 
+        if ($this->option('parallel')) {
+            return $this->runParallel($rootDir);
+        }
+
         if ($this->option('matrix')) {
             return $this->runMatrix($rootDir);
         }
@@ -153,6 +159,71 @@ class TemplateSandboxCommand extends Command
         return self::FAILURE;
     }
 
+    private function runParallel(string $rootDir): int
+    {
+        $processFactory = new ProcessFactory;
+
+        $cpuCores = $this->cpuCores();
+
+        $pending = array_keys(self::PROFILES);
+        $running = [];
+        $failures = [];
+
+        info('Running '.count($pending)." profiles, up to {$cpuCores} at a time.");
+
+        while ($pending !== [] || $running !== []) {
+            while ($pending !== [] && count($running) < $cpuCores) {
+                $name = array_shift($pending);
+
+                $running[$name] = $processFactory
+                    ->path($rootDir)
+                    ->forever()
+                    ->start(['php', '.template/init', 'template:sandbox', $name, '--no-ansi', '--no-interaction']);
+            }
+
+            foreach ($running as $name => $process) {
+                if ($process->running()) {
+                    continue;
+                }
+
+                unset($running[$name]);
+
+                $result = $process->wait();
+
+                if ($result->successful()) {
+                    info("SUCCESS: {$name}");
+
+                    continue;
+                }
+
+                error("FAILED: {$name}");
+
+                $failures[$name] = $result->output().$result->errorOutput();
+
+                note($failures[$name]);
+            }
+
+            usleep(200_000);
+        }
+
+        if ($failures === []) {
+            outro('All profiles passed.');
+
+            return self::SUCCESS;
+        }
+
+        error('Failed profiles: '.implode(', ', array_keys($failures)));
+
+        return self::FAILURE;
+    }
+
+    private function cpuCores(): int
+    {
+        $cores = (int) trim((string) shell_exec(PHP_OS_FAMILY === 'Darwin' ? 'sysctl -n hw.ncpu' : 'nproc'));
+
+        return max(1, $cores);
+    }
+
     private function promptForProfile(): int|string
     {
         return select(
@@ -182,7 +253,7 @@ class TemplateSandboxCommand extends Command
             $this->passthru($sandboxDir);
         } else {
             $configureOutput = spin(
-                fn (): string => $this->exec('php .template/init template:init --no-interaction --safe -vvv '.implode(' ', $options), $sandboxDir),
+                fn (): string => $this->exec('php .template/init template:init --no-interaction --safe '.implode(' ', $options), $sandboxDir),
                 'Configuring the package...',
             );
 

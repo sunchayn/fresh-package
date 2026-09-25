@@ -53,5 +53,8 @@ class WorkbenchChoice extends AbstractChoice
 
         $chisel->file('.ai/skills/write-php-test/SKILL.md')
             ->replace(' Test workbench behavior after running `composer build`, when needed.', '');
+
+        $chisel->file('.ai/skills/write-php-test/SKILL.md')
+            ->replace('where a test belongs, workbench behavior, commands,', 'where a test belongs, commands,');
     }
 }

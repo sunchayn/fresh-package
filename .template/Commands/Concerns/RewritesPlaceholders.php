@@ -62,11 +62,9 @@ trait RewritesPlaceholders
             ':author_username' => $vendorSlug,
             ':vendor_name' => ucwords(str_replace(['-', '_'], ' ', $vendorSlug)),
             ':vendor_slug' => $vendorSlug,
-            ':vendor_namespace' => $vendorNamespace,
             ':package_name' => $metadata->packageNameHuman(),
             ':package_slug' => $packageSlug,
             ':package_description' => $metadata->packageDescription(),
-            ':class_name' => $className,
             'vendor-name/skeleton' => $vendorSlug.'/'.$packageSlug,
             'vendor-name' => $vendorSlug,
             'Author Name' => $metadata->authorName(),
@@ -117,11 +115,14 @@ trait RewritesPlaceholders
 
     private function restoreNonPlaceholderReplacements(Metadata $metadata): void
     {
-        $this->chisel->file('workbench/bootstrap/app.php')
-            ->replace(
-                "default_{$metadata->packageSlug()}_path",
-                'default_skeleton_path',
-            );
+        // The workbench app only exists when the workbench choice is selected.
+        if (is_file($this->chisel->rootDir().'/workbench/bootstrap/app.php')) {
+            $this->chisel->file('workbench/bootstrap/app.php')
+                ->replace(
+                    "default_{$metadata->packageSlug()}_path",
+                    'default_skeleton_path',
+                );
+        }
 
         $this->chisel->file('composer.json')
             ->replace(

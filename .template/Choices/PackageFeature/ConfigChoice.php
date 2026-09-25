@@ -24,7 +24,6 @@ class ConfigChoice extends AbstractChoice
     public function onSelect(Chisel $chisel, Metadata $metadata): void
     {
         $chisel->file($metadata->providerPath())->removeSectionMarkers('config');
-        $chisel->file($metadata->providerPath())->removeSectionMarkers('any-features');
         $chisel->file('tests/App/ExampleFunctionalTest.php')->removeSectionMarkers('config');
     }
 

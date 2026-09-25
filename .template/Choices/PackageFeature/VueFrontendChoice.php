@@ -39,7 +39,6 @@ class VueFrontendChoice extends AbstractChoice
 
         $chisel->file($providerPath)->removeSectionMarkers('views');
         $chisel->file($providerPath)->removeSectionMarkers('vue');
-        $chisel->file($providerPath)->removeSectionMarkers('any-features');
 
         $chisel
             ->file('routes/web.php')
@@ -59,13 +58,17 @@ class VueFrontendChoice extends AbstractChoice
     public function onDecline(Chisel $chisel, Metadata $metadata): void
     {
         $chisel->file($metadata->providerPath())->removeSection('vue');
-        $chisel->file('.ai/GUIDELINES.md')->removeLinesContaining('resources/js');
-        $chisel->file('.ai/skills/scaffold-module/SKILL.md')->removeLinesContaining('resources/js');
-        $chisel->file('.ai/skills/task-finalization/SKILL.md')->removeLinesContaining('resources/js');
 
-        $chisel
-            ->file('.ai/skills/write-comments/SKILL.md')
-            ->replace(', and for TypeScript/Vue', '');
+        // The .ai files only exist when ai_support is selected.
+        if (is_dir($chisel->rootDir().'/.ai')) {
+            $chisel->file('.ai/GUIDELINES.md')->removeLinesContaining('resources/js');
+            $chisel->file('.ai/skills/scaffold-module/SKILL.md')->removeLinesContaining('resources/js');
+            $chisel->file('.ai/skills/task-finalization/SKILL.md')->removeLinesContaining('resources/js');
+
+            $chisel
+                ->file('.ai/skills/write-comments/SKILL.md')
+                ->replace(', and for TypeScript/Vue', '');
+        }
     }
 
     /**

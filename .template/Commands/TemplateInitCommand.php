@@ -53,6 +53,7 @@ class TemplateInitCommand extends Command
     use UpdatesComposerFile;
 
     protected $signature = 'template:init
+        {--safe : Fail when a Chisel operation yields no update}
         {--author-name= : Author name}
         {--author-email= : Author email}
         {--package-name= : Package name, in vendor/package format}
@@ -117,7 +118,7 @@ class TemplateInitCommand extends Command
     {
         $rootDir = rtrim(getcwd() ?: '.', '/');
 
-        $this->chisel = Chisel::in($rootDir);
+        $this->chisel = Chisel::in($rootDir)->safe((bool) $this->option('safe'));
 
         if ($this->isTemplateRepositoryOrItsFork()) {
             $this->refuseSkeletonRepository();
@@ -281,7 +282,9 @@ class TemplateInitCommand extends Command
         // We delete the package's own .ai files before the initialization.
         // The choices might create a package .ai folder when AI support is selected.
         // We don't want to accidentally delete that for the end user.
-        $this->chisel->file('.ai')->delete();
+        if (is_dir($this->chisel->rootDir().'/.ai')) {
+            $this->chisel->file('.ai')->delete();
+        }
 
         // Run chisel and actually apply the changes related to the selected choices/configuration.
         $chiselScript->chisel($answers);

@@ -29,7 +29,7 @@ trait ResolvesChoices
 {
     private function buildChiselScript(Metadata $metadata): Script
     {
-        $script = Chisel::script($this->chisel->rootDir());
+        $script = Chisel::script($this->chisel->rootDir())->safe((bool) $this->option('safe'));
 
         $script->questions([
             Question::multiselect(
@@ -82,8 +82,7 @@ trait ResolvesChoices
             },
         );
 
-        // Each of these choices strips its own any-features markers in its own onSelect.
-        // This handles the one case none of them do, every one of them declined (the `else` block).
+        // The any-features section stays when at least one of these choices is selected, and goes otherwise.
         $script->selectedAny(
             key: 'package_features',
             values: [
@@ -95,6 +94,7 @@ trait ResolvesChoices
                 BladeFrontendChoice::key(),
                 VueFrontendChoice::key(),
             ],
+            then: fn (Chisel $chisel) => $chisel->file($metadata->providerPath())->removeSectionMarkers('any-features'),
             else: function (Chisel $chisel) use ($metadata): void {
                 $chisel->file($metadata->providerPath())->removeSection('any-features');
             },

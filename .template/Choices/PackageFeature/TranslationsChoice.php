@@ -24,7 +24,6 @@ class TranslationsChoice extends AbstractChoice
     public function onSelect(Chisel $chisel, Metadata $metadata): void
     {
         $chisel->file($metadata->providerPath())->removeSectionMarkers('translations');
-        $chisel->file($metadata->providerPath())->removeSectionMarkers('any-features');
         $chisel->file('tests/App/ExampleFunctionalTest.php')->removeSectionMarkers('translations');
     }
 

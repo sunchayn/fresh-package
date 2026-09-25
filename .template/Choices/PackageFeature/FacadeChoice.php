@@ -24,7 +24,5 @@ class FacadeChoice extends AbstractChoice
     public function onDecline(Chisel $chisel, Metadata $metadata): void
     {
         $chisel->file('src/Facades')->delete();
-        $chisel->file('README.md')->removeLinesContaining('facade');
-        $chisel->file('README.md')->removeLinesContaining('Facade');
     }
 }

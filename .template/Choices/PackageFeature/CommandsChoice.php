@@ -24,7 +24,6 @@ class CommandsChoice extends AbstractChoice
     public function onSelect(Chisel $chisel, Metadata $metadata): void
     {
         $chisel->file($metadata->providerPath())->removeSectionMarkers('commands');
-        $chisel->file($metadata->providerPath())->removeSectionMarkers('any-features');
         $chisel->file('tests/App/ExampleFunctionalTest.php')->removeSectionMarkers('commands');
     }
 
@@ -39,7 +38,5 @@ class CommandsChoice extends AbstractChoice
 
         $chisel->file($providerPath)->removeSection('commands');
         $chisel->file('tests/App/ExampleFunctionalTest.php')->removeSection('commands');
-        $chisel->file('README.md')->removeLinesContaining('command');
-        $chisel->file('README.md')->removeLinesContaining('Command');
     }
 }

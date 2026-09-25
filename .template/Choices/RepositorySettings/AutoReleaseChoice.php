@@ -52,9 +52,9 @@ class AutoReleaseChoice extends AbstractChoice
             ->delete();
 
         $chisel->file('README.md')->removeMarkdownSection('Changelog');
-        $chisel->file('README.md')->removeLinesContaining('changelog');
-        $chisel->file('README.md')->removeLinesContaining('CHANGELOG');
-        $chisel->file('.ai/GUIDELINES.md')->removeLinesContaining('package-release');
+        if (is_file($chisel->rootDir().'/.ai/GUIDELINES.md')) {
+            $chisel->file('.ai/GUIDELINES.md')->removeLinesContaining('package-release');
+        }
     }
 
     #[\Override]

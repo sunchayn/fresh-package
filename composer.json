@@ -27,7 +27,7 @@
         "brianium/paratest": "^7.0||^8.0",
         "larastan/larastan": "^2.9||^3.0",
         "laravel/agent-detector": "^2.0",
-        "sunchayn/chisel-extended": "^0.2.0",
+        "sunchayn/chisel-extended": "^0.3.0",
         "laravel/pint": "^1.29",
         "laravel/prompts": "^0.3",
         "nunomaduro/collision": "^8.1",

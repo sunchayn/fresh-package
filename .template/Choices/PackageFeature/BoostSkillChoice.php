@@ -45,6 +45,9 @@ class BoostSkillChoice extends AbstractChoice
     #[\Override]
     public function onDecline(Chisel $chisel, Metadata $metadata): void
     {
-        $chisel->file('.ai/GUIDELINES.md')->removeLinesContaining('package-generate-skill');
+        // The guidelines file only exists when ai_support is selected.
+        if (is_file($chisel->rootDir().'/.ai/GUIDELINES.md')) {
+            $chisel->file('.ai/GUIDELINES.md')->removeLinesContaining('package-generate-skill');
+        }
     }
 }

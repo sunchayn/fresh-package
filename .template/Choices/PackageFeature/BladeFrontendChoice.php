@@ -32,7 +32,6 @@ class BladeFrontendChoice extends AbstractChoice
     public function onSelect(Chisel $chisel, Metadata $metadata): void
     {
         $chisel->file($metadata->providerPath())->removeSectionMarkers('views');
-        $chisel->file($metadata->providerPath())->removeSectionMarkers('any-features');
         $chisel->file('tests/App/ExampleFunctionalTest.php')->removeSectionMarkers('views');
     }
 
@@ -42,6 +41,5 @@ class BladeFrontendChoice extends AbstractChoice
         $chisel->file('resources/views/placeholder.blade.php')->delete();
         $chisel->file('tests/App/ExampleFunctionalTest.php')->removeSection('views');
 
-        $chisel->file('.ai/skills/scaffold-module/SKILL.md')->removeLinesContaining('resources/views');
     }
 }

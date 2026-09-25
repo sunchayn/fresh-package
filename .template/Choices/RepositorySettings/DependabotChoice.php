@@ -27,12 +27,6 @@ class DependabotChoice extends AbstractChoice
     }
 
     #[\Override]
-    public function onDecline(Chisel $chisel, Metadata $metadata): void
-    {
-        $chisel->file('README.md')->removeLinesContaining('Dependabot');
-    }
-
-    #[\Override]
     public function manualSteps(): array
     {
         return [

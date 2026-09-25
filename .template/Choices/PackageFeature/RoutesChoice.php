@@ -32,8 +32,6 @@ class RoutesChoice extends AbstractChoice
         $chisel->file('routes')->delete();
         $chisel->file('src/Http')->delete();
         $chisel->file($metadata->providerPath())->removeSection('routes');
-        $chisel->file('README.md')->removeLinesContaining('route');
-        $chisel->file('README.md')->removeLinesContaining('Route');
         $chisel->file('tools/phpstan/phpstan.neon.dist')->removeLinesContaining('- ../../routes');
     }
 }

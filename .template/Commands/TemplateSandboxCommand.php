@@ -182,7 +182,7 @@ class TemplateSandboxCommand extends Command
             $this->passthru($sandboxDir);
         } else {
             $configureOutput = spin(
-                fn (): string => $this->exec('php .template/init template:init --no-interaction '.implode(' ', $options), $sandboxDir),
+                fn (): string => $this->exec('php .template/init template:init --no-interaction --safe -vvv '.implode(' ', $options), $sandboxDir),
                 'Configuring the package...',
             );
 
@@ -219,7 +219,7 @@ class TemplateSandboxCommand extends Command
     private function passthru(string $sandboxDir): void
     {
         $process = proc_open(
-            ['php', '.template/init', 'template:init'],
+            ['php', '.template/init', 'template:init', '--safe'],
             [0 => STDIN, 1 => STDOUT, 2 => STDERR],
             $pipes, $sandboxDir,
         );

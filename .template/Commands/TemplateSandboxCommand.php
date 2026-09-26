@@ -176,6 +176,7 @@ class TemplateSandboxCommand extends Command
                 $name = array_shift($pending);
 
                 $running[$name] = $processFactory
+                    ->newPendingProcess()
                     ->path($rootDir)
                     ->forever()
                     ->start(['php', '.template/init', 'template:sandbox', $name, '--no-ansi', '--no-interaction']);

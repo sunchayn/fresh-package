@@ -93,8 +93,8 @@ trait ResolvesChoices
                 BladeFrontendChoice::key(),
                 VueFrontendChoice::key(),
             ],
-            then: fn (Chisel $chisel) => $chisel->file('README.md')->removeSectionMarkers('publish-intro'),
-            else: fn (Chisel $chisel) => $chisel->file('README.md')->removeSection('publish-intro'),
+            then: fn (Chisel $chisel): \Laravel\Chisel\Filesystem\PendingFiles => $chisel->file('README.md')->removeSectionMarkers('publish-intro'),
+            else: fn (Chisel $chisel): \Laravel\Chisel\Filesystem\PendingFiles => $chisel->file('README.md')->removeSection('publish-intro'),
         );
 
         // The any-features section stays when at least one of these choices is selected, and goes otherwise.
@@ -109,7 +109,7 @@ trait ResolvesChoices
                 BladeFrontendChoice::key(),
                 VueFrontendChoice::key(),
             ],
-            then: fn (Chisel $chisel) => $chisel->file($metadata->providerPath())->removeSectionMarkers('any-features'),
+            then: fn (Chisel $chisel): \Laravel\Chisel\Filesystem\PendingFiles => $chisel->file($metadata->providerPath())->removeSectionMarkers('any-features'),
             else: function (Chisel $chisel) use ($metadata): void {
                 $chisel->file($metadata->providerPath())->removeSection('any-features');
             },

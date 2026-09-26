@@ -63,17 +63,11 @@ php artisan vendor:publish --tag=":package_slug-assets"
 
 <!-- Add a basic usage example here. -->
 
-## Changelog
+## Links
 
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
-
-## Contributing
-
-Thank you for considering contributing to :package_name! Please review our [contributing guide](.github/CONTRIBUTING.md) to get started.
-
-## Security Vulnerabilities
-
-Please review [our security policy](.github/SECURITY.md) on how to report security vulnerabilities.
+- [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+- [Contributing Guide](.github/CONTRIBUTING.md) Thank you for considering contributing to :package_name!
+- [The security policy](.github/SECURITY.md) for reporting security vulnerabilities.
 
 ## Credits
 

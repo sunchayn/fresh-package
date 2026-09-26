@@ -52,7 +52,7 @@ class AutoReleaseChoice extends AbstractChoice
             )
             ->delete();
 
-        $chisel->file('README.md')->removeMarkdownSection('Changelog');
+        $chisel->file('README.md')->removeLinesContaining('](CHANGELOG.md)');
         if (is_dir($chisel->rootDir().'/.ai')) {
             $chisel->files('.ai/GUIDELINES.md', '.ai/skills/scaffold-module/SKILL.md')->removeSection('auto-release');
         }

@@ -29,6 +29,6 @@ class SecurityPolicyChoice extends AbstractChoice
     #[\Override]
     public function onDecline(Chisel $chisel, Metadata $metadata): void
     {
-        $chisel->file('README.md')->removeMarkdownSection('Security Vulnerabilities');
+        $chisel->file('README.md')->removeLinesContaining('.github/SECURITY.md');
     }
 }

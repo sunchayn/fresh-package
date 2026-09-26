@@ -2,11 +2,12 @@
 
 This is the source of truth the `skeleton-e2e-test` skill checks itself against before running anything. Every row here must correspond to exactly one `key()` in `.template/Choices/PackageFeature/*.php` or `.template/Choices/RepositorySettings/*.php`, and every such `key()` must have a row here. If they drift apart, the skill stops instead of testing against a stale map.
 
-Last verified against the codebase: 2026-09-14.
+Last verified against the codebase: 2026-09-26.
 
 ## Universal, on every successful `template:init` run, regardless of choices
 - `.template/` is gone, along with the `template:init` and `template:sandbox` commands.
 - `.template/stubs/repository_settings/README_PACKAGE.md` and `.template/stubs/repository_settings/.github/CONTRIBUTING_PACKAGE.md` are gone (along with the rest of `.template/`), `README.md` and `CONTRIBUTING.md` are generated in their place.
+- The README "Links" section always keeps the Contributing bullet. The CHANGELOG and security policy bullets appear only when `auto_release` and `security_policy` are selected.
 - When every publishable resource (`config`, `translations`, `assets`, `migrations`, `blade`, `vue`) is declined, the README's "publish all resources at once" intro is removed too.
 - No literal `:author_name`, `:package_name`, `:vendor_slug`, or `:package_slug` remains anywhere.
 - `composer.json` no longer lists `@php .template/init` under `post-install-cmd` or `post-update-cmd`, and drops the hook entirely if that was its only command.
@@ -41,8 +42,8 @@ Selected means present, declined means absent, unless noted.
 ## Per choice, repository settings
 | Key | Present when selected | Removed when declined |
 |---|---|---|
-| `auto_release` | `CHANGELOG.md`, `release-please-config.json`, `.release-please-manifest.json`, `.github/workflows/release.yml`, `.ai/skills/package-release` if `ai_support` is present | all of the above, README "Changelog" section and changelog mentions, GUIDELINES `package-release` mention |
+| `auto_release` | `CHANGELOG.md`, `release-please-config.json`, `.release-please-manifest.json`, `.github/workflows/release.yml`, `.ai/skills/package-release` if `ai_support` is present | all of the above, the CHANGELOG bullet in the README "Links" section, and other changelog mentions, GUIDELINES `package-release` mention |
 | `dependabot` | `.github/dependabot.yml`, with its npm ecosystem entry pointed at `/` if `vue` is also selected, or removed entirely if `vue` is declined | that file, README Dependabot mentions |
 | `funding` | `.github/FUNDING.yml` | that file |
 | `issue_template` | `.github/ISSUE_TEMPLATE/` | that directory |
-| `security_policy` | `.github/SECURITY.md` | that file, README "Security Vulnerabilities" section |
+| `security_policy` | `.github/SECURITY.md` | that file, the security policy bullet in the README "Links" section |

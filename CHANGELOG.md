@@ -5,6 +5,31 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.4.0](https://github.com/sunchayn/fresh-package/compare/v0.3.0...v0.4.0) (2026-09-26)
+
+
+### Features
+
+* enable safe mode for chisel-extended ([1e1ddda](https://github.com/sunchayn/fresh-package/commit/1e1ddda92741e05c0e632b7f73870b69921cdf5c))
+* reduce clutter from readme ([ebdfdf9](https://github.com/sunchayn/fresh-package/commit/ebdfdf92dd6cd4fd656c14681c48ba5597af18b0))
+
+
+### Bug Fixes
+
+* broken structure after marker cleanup ([ff4d173](https://github.com/sunchayn/fresh-package/commit/ff4d173922e34da6927db91ea357ece8d48b251a))
+
+
+### Code Refactoring
+
+* fix phpstan ([ef86f68](https://github.com/sunchayn/fresh-package/commit/ef86f686b11e94ef76d9ceae3e9cc26fb781d2ce))
+
+
+### Maintenance
+
+* allow running sandbox in parallel ([f45b7cc](https://github.com/sunchayn/fresh-package/commit/f45b7cc447f5c7068f23cc04f7cb819b07a9a0bf))
+* further cleanups for workbench ([48df309](https://github.com/sunchayn/fresh-package/commit/48df309444a19d8dea1409f6572401afd27376f6))
+* rector ([5c30a19](https://github.com/sunchayn/fresh-package/commit/5c30a19b62202a576821971d39a4eaa2897d9000))
+
 ## [0.3.0](https://github.com/sunchayn/fresh-package/compare/v0.2.4...v0.3.0) (2026-09-24)
 
 

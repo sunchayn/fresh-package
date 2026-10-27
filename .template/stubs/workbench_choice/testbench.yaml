@@ -27,7 +27,7 @@ workbench:
     - db-wipe
     - migrate-fresh
   assets:
-    - laravel-assets
+    - skeleton-assets
   sync:
     - from: storage
       to: workbench/storage

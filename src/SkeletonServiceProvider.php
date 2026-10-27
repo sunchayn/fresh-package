@@ -40,6 +40,15 @@ class SkeletonServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__.'/../lang', 'skeleton');
         /* @end-chisel-translations */
 
+        /* @chisel-vue */
+        // Point Vite at the package assets only while the package view renders.
+        // This keeps the host application Vite setup untouched.
+        \Illuminate\Support\Facades\View::composer('skeleton::app', function (): void {
+            \Illuminate\Support\Facades\Vite::useBuildDirectory('vendor/skeleton');
+            \Illuminate\Support\Facades\Vite::useHotFile(__DIR__.'/../resources/dist/hot');
+        });
+        /* @end-chisel-vue */
+
         /* @chisel-any-features */
         if (! $this->app->runningInConsole()) {
             return;

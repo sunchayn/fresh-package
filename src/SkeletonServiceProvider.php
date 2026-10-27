@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace VendorName\Skeleton;
 
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 use VendorName\Skeleton\Console\Commands\SkeletonCommand;
 
@@ -39,6 +41,15 @@ class SkeletonServiceProvider extends ServiceProvider
         /* @chisel-translations */
         $this->loadTranslationsFrom(__DIR__.'/../lang', 'skeleton');
         /* @end-chisel-translations */
+
+        /* @chisel-vue */
+        // Point Vite at the package assets only while the package view renders.
+        // This keeps the host application Vite setup untouched.
+        View::composer('skeleton::app', function (): void {
+            Vite::useBuildDirectory('vendor/skeleton');
+            Vite::useHotFile(__DIR__.'/../resources/dist/hot');
+        });
+        /* @end-chisel-vue */
 
         /* @chisel-any-features */
         if (! $this->app->runningInConsole()) {

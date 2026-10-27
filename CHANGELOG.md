@@ -5,6 +5,13 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.4.1](https://github.com/sunchayn/fresh-package/compare/v0.4.0...v0.4.1) (2026-10-27)
+
+
+### Bug Fixes
+
+* properly publish vite assets and use HMR ([#22](https://github.com/sunchayn/fresh-package/issues/22)) ([e1691e5](https://github.com/sunchayn/fresh-package/commit/e1691e5ed2d2fce501ca54d0980e5477700a8f9a))
+
 ## [0.4.0](https://github.com/sunchayn/fresh-package/compare/v0.3.0...v0.4.0) (2026-09-26)
 
 
